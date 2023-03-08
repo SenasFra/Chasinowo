@@ -5,7 +5,7 @@ import pygame
 
 pygame.init()
 pygame.mixer.music.load("assets/Musiques/Nouveau_projet.mp3")
-#pygame.mixer.music.play(-1)
+pygame.mixer.music.play(-1)
 
 class casino:
     def __init__(self):

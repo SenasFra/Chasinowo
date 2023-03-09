@@ -51,4 +51,4 @@ class Deux:
         for x in range(6):
             for y in range(4):
                 pyxel.image(0).load(0, 0, "assets/2/" + str(x) + str(y) + ".png")
-                pyxel.blt(x * 232, y * 196, 0, 0, 0, 300, 300)
+                pyxel.blt(x * 232, y * 196, 0, 0, 0, 232, 196)

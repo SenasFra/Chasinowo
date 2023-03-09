@@ -3,9 +3,9 @@ import salles
 
 class Debut:
     def __init__(self):
-        self.mur = [245,179,1069,702]
-        self.porte_bas = [627, 655, 702]
-        self.porte_haut = [649, 682, 179]
+        self.mur = [[245,180,1070,700]]
+        self.porte_bas = [625, 655, 700]
+        self.porte_haut = [650, 680, 180]
 
     def changer_haut(self):
         return salles.Deux()
@@ -23,9 +23,9 @@ class Debut:
 
 class Fin:
     def __init__(self):
-        self.mur = [170, 103, 1165, 719]
-        self.porte_bas = [] #650, 698, 719
-        self.porte_haut = [632, 674, 103]
+        self.mur = [[170, 105, 1165, 720]]
+        self.porte_bas = [] #650, 700, 720
+        self.porte_haut = [630, 675, 105]
 
 
     def changer_haut(self):
@@ -39,8 +39,8 @@ class Fin:
 
 class Deux:
     def __init__(self):
-        self.mur = [329, 205, 920, 639]
-        self.porte_bas = [621,675,639]
+        self.mur = [[330, 205, 920, 640],[440, 260, 765, 460],[490,410,720,510],[490,210,720,310]]
+        self.porte_bas = [620,675,640]
         self.porte_haut = []
 
 

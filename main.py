@@ -18,17 +18,17 @@ class casino:
     def update(self):
         self.perso.mouv(self.salle.mur)
         if len(self.salle.porte_bas)==3:
-            if self.perso.x >= self.salle.porte_bas[0] and self.perso.x <= self.salle.porte_bas[1] and self.perso.y == self.salle.porte_bas[2] and pyxel.btnp(pyxel.KEY_S):
+            if self.perso.x >= self.salle.porte_bas[0] and self.perso.x <= self.salle.porte_bas[1] and self.perso.y == self.salle.porte_bas[2] and pyxel.btnp(pyxel.KEY_E):
                 self.salle = self.salle.changer_bas()
                 self.perso.x = self.salle.porte_haut[0]
                 self.perso.y = self.salle.mur[1]
         if len(self.salle.porte_haut)==3:
-            if self.perso.x >= self.salle.porte_haut[0] and self.perso.x <= self.salle.porte_haut[1] and self.perso.y == self.salle.porte_haut[2] and pyxel.btnp(pyxel.KEY_Z):
+            if self.perso.x >= self.salle.porte_haut[0] and self.perso.x <= self.salle.porte_haut[1] and self.perso.y == self.salle.porte_haut[2] and pyxel.btnp(pyxel.KEY_A):
                 self.salle = self.salle.changer_haut()
                 self.perso.x = self.salle.porte_bas[0]
                 self.perso.y = self.salle.mur[3]
         if pyxel.btnp(pyxel.KEY_K):
-            print(self.perso.x,self.perso.y)
+            print(self.perso.x,self.perso.y) 
 
     def draw(self):
         self.salle.dess()

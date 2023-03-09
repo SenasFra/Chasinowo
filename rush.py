@@ -8,25 +8,45 @@ class Rush:
     def dess(self):
         pyxel.rect(self.x,self.y,50,50,0)
 
+
     def mouv(self, lst):
-        v = 8
-        if pyxel.btn(pyxel.KEY_D) and self.x < lst[2]:
-            if self.x + v <lst[2]:
-                self.x += v
-            else:
-                self.x += lst[2]-self.x
-        if pyxel.btn(pyxel.KEY_Q) and self.x > lst[0]:
-            if self.x - v > lst[0]:
-                self.x -= v
-            else:
-                self.x -= self.x -lst[0]
-        if pyxel.btn(pyxel.KEY_Z)and self.y > lst[1]:
-            if self.y - v > lst[1]:
-                self.y -= v
-            else:
-                self.y -= self.y -lst[1]
-        if pyxel.btn(pyxel.KEY_S)and self.y < lst[3]:
-            if self.y + v < lst[3]:
-                self.y += v
-            else:
-                self.y += lst[3] - self.y
+        if pyxel.btn(pyxel.KEY_CTRL):
+            v = 10
+        else:
+            v = 5
+        if pyxel.btn(pyxel.KEY_D) and self._peut_bouger(lst, "droite"):
+            self.x += v
+        if pyxel.btn(pyxel.KEY_Q) and self._peut_bouger(lst, "gauche"):
+            self.x -= v
+        if pyxel.btn(pyxel.KEY_Z) and self._peut_bouger(lst, "haut"):
+            self.y -= v
+        if pyxel.btn(pyxel.KEY_S) and self._peut_bouger(lst, "bas"):
+            self.y += v
+    
+    
+    def _peut_bouger(self, lst, direction):
+        if direction == "droite":
+            if self.x < lst[0][2]:
+                for k in range (1,len(lst)):
+                    if lst[k][1] < self.y < lst[k][3] and lst[k][0]-10 < self.x < lst[k][2]:
+                        return False
+                return True
+        elif direction == "gauche":
+            if self.x > lst[0][0]:
+                for k in range (1,len(lst)):
+                    if lst[k][1] < self.y < lst[k][3] and lst[k][0] < self.x < lst[k][2]+10:
+                        return False
+                return True
+        elif direction == "haut":
+            if self.y > lst[0][1]:
+                for k in range (1,len(lst)):
+                    if lst[k][0] < self.x < lst[k][2] and lst[k][1] < self.y < lst[k][3]+10:
+                        return False
+                return True
+        elif direction == "bas":
+            if self.y < lst[0][3]:
+                for k in range (1,len(lst)):
+                    if lst[k][0] < self.x < lst[k][2] and  lst[k][1]-10 < self.y < lst[k][3]:
+                        return False
+                return True
+                

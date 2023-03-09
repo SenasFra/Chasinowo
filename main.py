@@ -28,7 +28,7 @@ class casino:
                 self.perso.x = self.salle.porte_bas[0]
                 self.perso.y = self.salle.mur[3]
         if pyxel.btnp(pyxel.KEY_K):
-            print(self.perso.x,self.perso.y)
+            print(self.perso.x,self.perso.y) 
 
     def draw(self):
         self.salle.dess()

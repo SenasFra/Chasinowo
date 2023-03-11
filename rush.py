@@ -11,7 +11,7 @@ class Rush:
 
     def mouv(self, lst):
         if pyxel.btn(pyxel.KEY_CTRL):
-            v = 10
+            v = 1
         else:
             v = 5
         if pyxel.btn(pyxel.KEY_D) and self._peut_bouger(lst, "droite"):

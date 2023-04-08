@@ -4,9 +4,11 @@ class Rush:
     def __init__(self ,x ,y ):
         self.x = x
         self.y = y
+        self.direction = "haut"
 
     def dess(self):
-        pyxel.rect(self.x,self.y,50,50,0)
+        pyxel.image(2).load(0,0,"assets/character/main/" + self.direction + ".png")
+        pyxel.blt(self.x, self.y,2,0,0,50,50)
 
 
     def mouv(self, lst):
@@ -14,14 +16,18 @@ class Rush:
             v = 1
         else:
             v = 5
-        if pyxel.btn(pyxel.KEY_D) and self._peut_bouger(lst, "droite"):
-            self.x += v
-        if pyxel.btn(pyxel.KEY_Q) and self._peut_bouger(lst, "gauche"):
-            self.x -= v
         if pyxel.btn(pyxel.KEY_Z) and self._peut_bouger(lst, "haut"):
             self.y -= v
+            self.direction = "haut"
         if pyxel.btn(pyxel.KEY_S) and self._peut_bouger(lst, "bas"):
             self.y += v
+            self.direction = "bas"
+        if pyxel.btn(pyxel.KEY_D) and self._peut_bouger(lst, "droite"):
+            self.x += v
+            self.direction = "droite"
+        if pyxel.btn(pyxel.KEY_Q) and self._peut_bouger(lst, "gauche"):
+            self.x -= v
+            self.direction = "gauche"
     
     
     def _peut_bouger(self, lst, direction):

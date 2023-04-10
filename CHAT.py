@@ -1,7 +1,12 @@
 import pyxel
 
-class Rush:
+
+
+class CHAT:
     def __init__(self ,x ,y ):
+        self.money = 1100
+        self.doors_unlocked = []
+        
         self.x = x
         self.y = y
         self.direction = "haut"
@@ -12,22 +17,26 @@ class Rush:
 
 
     def mouv(self, lst):
+        v = 5
         if pyxel.btn(pyxel.KEY_CTRL):
             v = 1
-        else:
-            v = 5
-        if pyxel.btn(pyxel.KEY_Z) and self._peut_bouger(lst, "haut"):
-            self.y -= v
+            
+        if pyxel.btn(pyxel.KEY_Z):
             self.direction = "haut"
-        if pyxel.btn(pyxel.KEY_S) and self._peut_bouger(lst, "bas"):
-            self.y += v
+            if self._peut_bouger(lst, "haut"):
+                self.y -= v
+        if pyxel.btn(pyxel.KEY_S):
             self.direction = "bas"
-        if pyxel.btn(pyxel.KEY_D) and self._peut_bouger(lst, "droite"):
-            self.x += v
+            if self._peut_bouger(lst, "bas"):
+                self.y += v
+        if pyxel.btn(pyxel.KEY_D):
             self.direction = "droite"
-        if pyxel.btn(pyxel.KEY_Q) and self._peut_bouger(lst, "gauche"):
-            self.x -= v
+            if self._peut_bouger(lst, "droite"):
+                self.x += v
+        if pyxel.btn(pyxel.KEY_Q):
             self.direction = "gauche"
+            if self._peut_bouger(lst, "gauche"):
+                self.x -= v
     
     
     def _peut_bouger(self, lst, direction):

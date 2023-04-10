@@ -8,7 +8,6 @@ class Porte:
         
         
     def enter(self, user_money: int, doors_unlocked: list):
-        print(self.name, doors_unlocked, "miaou")
         if self.name in doors_unlocked:
             return self.next_room
         

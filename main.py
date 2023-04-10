@@ -16,6 +16,7 @@ class casino:
         self.salle = salles.Debut()
         self.perso = rush.Rush(650,425)
         self.jeu = None
+        self.doors_unlocked = []
         pyxel.run(self.update, self.draw)
 
     def update(self):

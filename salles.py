@@ -75,7 +75,7 @@ class Deux:
         self.jeu = [440, 375]
 
     def jouer(self):
-        return Des()
+        return Machine_a_Sous()
 
     def changer_bas(self):
         return salles.Debut()

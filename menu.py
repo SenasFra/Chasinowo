@@ -7,6 +7,7 @@ class Menu:
         self.new = True
         self.continu = False
         self.exit = False
+        self.jouer = True
     def update(self):
         if self.continu and pyxel.btnp(pyxel.KEY_S):
             self.continu = False
@@ -21,9 +22,8 @@ class Menu:
             self.exit = False
             self.continu = True
         if pyxel.btn(pyxel.KEY_E):
-            if self.new:
-                sauvegarde = open("/assets/sauvegarde.txt", w)
-                sauvegarde.close()
+            if self.new == True:
+                self.jouer = False
 
     def draw(self):
         pyxel.cls(0)

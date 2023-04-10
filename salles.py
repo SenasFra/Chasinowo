@@ -2,31 +2,39 @@ import pyxel
 import salles
 from machine_sous import Machine_a_Sous
 from des import Des
+import porte
 
 class Debut:
     def __init__(self):
         self.mur = [[270,140,1025,500]]
-        self.porte_bas = [600, 690, 500]
-        self.porte_haut = [595, 675, 140]
-        self.porte_droit = []
-        self.porte_gauche = [270, 240, 330]
+        # self.porte_bas = [600, 690, 500]
+        # self.porte_haut = [595, 675, 140]
+        # self.porte_droit = []
+        # self.porte_gauche = [270, 240, 330]
         self.jeu = []
+        self.Porte_D_1 = porte.Porte("D-1", {'x': 270, 'y': 295}, 1000, salles.Un)
+        self.Porte_D_2 = porte.Porte("D-2", {'x': 630, 'y': 140}, 1000, salles.Deux)
+        #self.Porte_D_3 = porte.Porte("D-3", {'x': 1025, 'y': 300}, 0, salles.Trois)
+        self.Porte_D_F = porte.Porte("D-F", {'x': 650, 'y': 500}, 1000000, salles.Fin)
 
-    def changer_haut(self):
-        return salles.Deux()
+    # def changer_haut(self):
+    #     return salles.Deux()
     
-    def changer_bas(self):
-        return salles.Fin()
+    # def changer_bas(self):
+    #     return salles.Fin()
 
-    def changer_gauche(self):
-        return salles.Un()
+    # def changer_gauche(self):
+    #     return salles.Un()
 
     def dess(self):
         for x in range(6):
             for y in range(4):
                 pyxel.image(0).load(0, 0, "assets/debut/"+str(x)+str(y)+".png")
                 pyxel.blt(x*225,y*170,0,0,0,300,300)
-
+                
+    def mouve(self, x, y):
+        if self.Porte_D_1.coord['x'] < x < self.Porte_D_1.coord['x'] + 90 and self.Porte_D_1.coord['y'] < y < self.Porte_D_1.coord['y'] + 90:
+            pass
 
 class Fin:
     def __init__(self):

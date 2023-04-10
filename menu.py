@@ -38,4 +38,3 @@ class Menu:
             pyxel.rect(425, 390, 110,20,0)
         if not self.exit:
             pyxel.rect(425, 426, 110,20,0)
-        scalablewritingpyxel.

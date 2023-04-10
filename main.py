@@ -4,6 +4,7 @@ import rush
 import pygame
 from machine_sous import Machine_a_Sous
 from des import Des
+from menu import Menu
 
 pygame.init()
 pygame.mixer.music.load("assets/Musiques/Nouveau_projet.mp3")
@@ -15,7 +16,7 @@ class casino:
         pyxel.mouse(True)
         self.salle = salles.Debut()
         self.perso = rush.Rush(650,425)
-        self.jeu = None
+        self.jeu = Menu()
         pyxel.run(self.update, self.draw)
 
     def update(self):

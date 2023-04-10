@@ -4,7 +4,6 @@ from random import randint
 
 class Machine_a_Sous:
     def __init__(self):
-        self.full = False
         self.affiche = False
         self.assigned = ""
         self.x = 450
@@ -105,10 +104,13 @@ class Machine_a_Sous:
             pyxel.blt(self.x+520, self.y+100, 0, 0, 0, 200, 200)
 
     def selection(self):
-        pyxel.rect(self.x+180,self.y+450,440,100,3)
+        pyxel.rect(self.x+180,self.y+450,440,101,3)
         pyxel.rect(self.x+160,self.y+470, 20,60,3)
         pyxel.rect(self.x + 620, self.y + 470, 20, 60, 3)
-
+        pyxel.tri(self.x +180,self.y+450,self.x+160,self.y+470,self.x+180,self.y+470,3)
+        pyxel.tri(self.x + 160, self.y + 530, self.x + 180, self.y + 530, self.x + 180, self.y + 550, 3)
+        pyxel.tri(self.x + 639, self.y + 470, self.x + 619, self.y + 470, self.x + 619, self.y + 450, 3)
+        pyxel.tri(self.x + 639, self.y + 530, self.x + 619, self.y + 530, self.x + 619, self.y + 550, 3)
     def update(self):
         pass
 

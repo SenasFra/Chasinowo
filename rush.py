@@ -56,3 +56,19 @@ class Rush:
                         return False
                 return True
                 
+                
+    def replace_cat(self, room, previous_door_name):
+        reversed_name = ""
+        for l in reversed(previous_door_name):
+            reversed_name += l
+            
+        for porte in room.portes:
+            if porte.name == reversed_name:
+                if porte.is_in_front:
+                    x = porte.coord['x'] + 90 // 2
+                    y = porte.coord['y']
+                else:
+                    x = porte.coord['x']
+                    y = porte.coord['y'] + 90 // 2
+                return x, y
+                    

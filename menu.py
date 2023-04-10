@@ -7,6 +7,7 @@ class Menu:
         self.new = True
         self.continu = False
         self.exit = False
+        self.jouer = True
     def update(self):
         if self.continu and pyxel.btnp(pyxel.KEY_S):
             self.continu = False
@@ -20,11 +21,6 @@ class Menu:
         if self.exit and pyxel.btnp(pyxel.KEY_Z):
             self.exit = False
             self.continu = True
-        if pyxel.btn(pyxel.KEY_SPACE):
-            if self.new:
-                self.jeu = None
-            if self.exit:
-                pyxel.quit()
 
     def draw(self):
         pyxel.cls(0)

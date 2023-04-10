@@ -9,7 +9,6 @@ from menu import Menu
 pygame.init()
 pygame.mixer.music.load("assets/Musiques/Nouveau_projet.mp3")
 #pygame.mixer.music.play(-1)
-
 class casino:
     def __init__(self):
         pyxel.init(1350, 680, title= "ChasinOwO")
@@ -50,6 +49,8 @@ class casino:
                 print(self.perso.x,self.perso.y)
         else:
             self.jeu.update()
+            if self.jeu.jouer == False:
+                self.jeu = None
 
     def draw(self):
         if self.jeu == None:

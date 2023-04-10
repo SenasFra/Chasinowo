@@ -1,6 +1,6 @@
 import pyxel
 import salles
-import rush
+import CHAT
 import pygame
 from machine_sous import Machine_a_Sous
 from des import Des
@@ -13,41 +13,34 @@ class casino:
     def __init__(self):
         pyxel.init(1350, 680, title= "ChasinOwO")
         pyxel.mouse(True)
-        #self.salle = salles.Debut
-        self.perso = rush.Rush(650,425)
-        self.can_change_room = True
+        self.CHAT = CHAT.CHAT(650,425)
         self.previous_room = None
-        self.room = salles.Debut
-        self.doors_unlocked = []
-        self.user_money = 1100
+        self.current_room = salles.Debut
         pyxel.run(self.update, self.draw)
 
     def update(self):
-        if pyxel.btn(pyxel.KEY_E) and self.can_change_room:
-            print(self.can_change_room)
-            
-            result = self.room.changeRoom(self.perso.x, self.perso.y, self.user_money, self.doors_unlocked)
-            #change de salle
-            if result is not None:
-                room, previous_door_name = result[0], result[1]
-                self.room = room
-                #replace le chat
-                new_coord = self.perso.replace_cat(room, previous_door_name)
-                self.perso.x, self.perso.y = new_coord[0], new_coord[1]
-                self.can_change_room = False
-                
-        if pyxel.btn(pyxel.KEY_Z) or pyxel.btn(pyxel.KEY_Q) or pyxel.btn(pyxel.KEY_S) or pyxel.btn(pyxel.KEY_D):
-            self.can_change_room = True
-            print("miaou")
+        if pyxel.btnp(pyxel.KEY_E):            
+            porte = self.current_room.take_door(self.CHAT.x, self.CHAT.y)
+            #vérifie si on peut entrer
+            if porte is not None:
+                room = porte.enter(self.CHAT)
+                previous_door_name = porte.name
+                #change de salle
+                if room is not None:
+                    self.current_room = room
+                    #replace le chat
+                    new_coord = self.CHAT.replace_cat(self.current_room, previous_door_name)
+                    self.CHAT.x, self.CHAT.y = new_coord[0], new_coord[1]
+
                             
         if pyxel.btn(pyxel.KEY_A):
-            print(self.perso.x, self.perso.y)
+            print(self.CHAT.x, self.CHAT.y, self.CHAT.money, self.CHAT.doors_unlocked)
                 
                 
-        self.perso.mouv(self.room.mur)
+        self.CHAT.mouv(self.current_room.mur)
         
-        if self.room == None:
-            self.perso.mouv(self.salle.mur)
+        if self.current_room == None:
+            self.CHAT.mouv(self.salle.mur)
         #     if len(self.salle.porte_bas)==3:
         #         if self.perso.x >= self.salle.porte_bas[0] and self.perso.x <= self.salle.porte_bas[1] and self.perso.y == self.salle.porte_bas[2] and pyxel.btnp(pyxel.KEY_E):
         #             self.salle = self.salle.changer_bas()
@@ -78,8 +71,8 @@ class casino:
         #     self.jeu.update()
 
     def draw(self):
-        self.room.dess()
-        self.perso.dess()
+        self.current_room.dess()
+        self.CHAT.dess()
 
 
 running = True

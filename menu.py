@@ -20,17 +20,18 @@ class Menu:
         if self.exit and pyxel.btnp(pyxel.KEY_Z):
             self.exit = False
             self.continu = True
-        if pyxel.btn(pyxel.KEY_E):
+        if pyxel.btn(pyxel.KEY_SPACE):
             if self.new:
-                sauvegarde = open("/assets/sauvegarde.txt", w)
-                sauvegarde.close()
+                self.jeu = None
+            if self.exit:
+                pyxel.quit()
 
     def draw(self):
         pyxel.cls(0)
-        for xi in range(6):
-            for yi in range(5):
+        for x in range(6):
+            for y in range(5):
                 pyxel.image(0).load(0, 0, "assets/chatsbackground.png")
-                pyxel.blt(xi* 240, yi * 150, 0, 0, 0, 232, 196)
+                pyxel.blt(x* 240, y * 150, 0, 0, 0, 232, 196)
         for x in range(2):
             for y in range(2):
                 pyxel.image(1).load(0,0,"assets/menu/"+str(x)+str(y)+".png")
@@ -41,3 +42,4 @@ class Menu:
             pyxel.rect(425, 390, 110,20,0)
         if not self.exit:
             pyxel.rect(425, 426, 110,20,0)
+        scalablewritingpyxel.

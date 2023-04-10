@@ -11,6 +11,7 @@ class Machine_a_Sous:
         self.final_a = 0
         self.final_b = -1
         self.final_c = 0
+        self.jouer = True
 
     def launch(self):
         global a,b,c
@@ -112,7 +113,8 @@ class Machine_a_Sous:
         pyxel.tri(self.x + 639, self.y + 470, self.x + 619, self.y + 470, self.x + 619, self.y + 450, 3)
         pyxel.tri(self.x + 639, self.y + 530, self.x + 619, self.y + 530, self.x + 619, self.y + 550, 3)
     def update(self):
-        pass
+        if pyxel.btn(pyxel.KEY_A):
+            self.jouer = False
 
     def draw(self):
         pyxel.cls(1)

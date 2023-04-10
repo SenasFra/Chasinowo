@@ -20,10 +20,10 @@ class Salle:
     def changeRoom(self, x, y, user_money, doors_unlocked):
         for porte in self.portes:
             if not porte.is_in_front:
-                if porte.coord['x'] <= x <= porte.coord['x'] + 10 and porte.coord['y'] < y < porte.coord['y'] + 90:
+                if porte.coord['x'] - 5 <= x < porte.coord['x'] + 5 and porte.coord['y'] < y < porte.coord['y'] + 90:
                     return porte.enter(user_money, doors_unlocked), porte.name
             else:
-                if porte.coord['x'] <= x <= porte.coord['x'] + 90 and porte.coord['y'] < y < porte.coord['y'] + 10:
+                if porte.coord['x'] < x < porte.coord['x'] + 90 and porte.coord['y'] - 5 <= y < porte.coord['y'] + 5:
                     return porte.enter(user_money, doors_unlocked), porte.name
         
         

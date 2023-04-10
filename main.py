@@ -15,6 +15,7 @@ class casino:
         pyxel.mouse(True)
         #self.salle = salles.Debut
         self.perso = rush.Rush(650,425)
+        self.can_change_room = True
         self.previous_room = None
         self.room = salles.Debut
         self.doors_unlocked = []
@@ -22,7 +23,8 @@ class casino:
         pyxel.run(self.update, self.draw)
 
     def update(self):
-        if pyxel.btn(pyxel.KEY_E):
+        if pyxel.btn(pyxel.KEY_E) and self.can_change_room:
+            print(self.can_change_room)
             
             result = self.room.changeRoom(self.perso.x, self.perso.y, self.user_money, self.doors_unlocked)
             #change de salle
@@ -32,6 +34,11 @@ class casino:
                 #replace le chat
                 new_coord = self.perso.replace_cat(room, previous_door_name)
                 self.perso.x, self.perso.y = new_coord[0], new_coord[1]
+                self.can_change_room = False
+                
+        if pyxel.btn(pyxel.KEY_Z) or pyxel.btn(pyxel.KEY_Q) or pyxel.btn(pyxel.KEY_S) or pyxel.btn(pyxel.KEY_D):
+            self.can_change_room = True
+            print("miaou")
                             
         if pyxel.btn(pyxel.KEY_A):
             print(self.perso.x, self.perso.y)

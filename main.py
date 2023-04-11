@@ -1,14 +1,15 @@
 import pyxel
 import salles
 import CHAT
-import pygame
+#import pygame
 from machine_sous import Machine_a_Sous
 from des import Des
 from menu import Menu
 
-pygame.init()
-pygame.mixer.music.load("assets/Musiques/Nouveau_projet.mp3")
+# pygame.init()
+# pygame.mixer.music.load("assets/Musiques/Nouveau_projet.mp3")
 #pygame.mixer.music.play(-1)
+
 class casino:
     def __init__(self):
         pyxel.init(1350, 680, title= "ChasinOwO")
@@ -77,7 +78,7 @@ class casino:
 
 running = True
 while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+    # for event in pygame.event.get():
+    #     if event.type == pygame.QUIT:
+    #         running = False
     casino()

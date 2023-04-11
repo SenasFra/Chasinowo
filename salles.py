@@ -39,10 +39,10 @@ Fin = Salle( [[270, 145, 1025, 480], [395, 235, 590, 410], [340, 250, 645, 375],
 
 #création et ajout des portes
 #salle debut
-Porte_D_1 = porte.Porte("D-1", {'x': 270, 'y': 260}, 0, Un, False)
-Porte_D_2 = porte.Porte("D-2", {'x': 600, 'y': 140}, 0, Deux, True)
+Porte_D_1 = porte.Porte("D-1", {'x': 270, 'y': 260}, 1000, Un, False)
+Porte_D_2 = porte.Porte("D-2", {'x': 600, 'y': 140}, 1000, Deux, True)
 # #Porte_D_3 = porte.Porte("D-3", {'x': 1025, 'y': 300}, 0, salles.Trois)
-Porte_D_F = porte.Porte("D-F", {'x': 610, 'y': 500}, 0, Fin, True)
+Porte_D_F = porte.Porte("D-F", {'x': 610, 'y': 500}, 1000000, Fin, True)
 Debut.portes.append(Porte_D_1)
 Debut.portes.append(Porte_D_2)
 Debut.portes.append(Porte_D_F)

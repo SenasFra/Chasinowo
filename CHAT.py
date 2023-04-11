@@ -1,10 +1,8 @@
 import pyxel
 
-
-
 class CHAT:
     def __init__(self ,x ,y ):
-        self.money = 1100
+        self.money = 110000000
         self.doors_unlocked = []
         
         self.x = x

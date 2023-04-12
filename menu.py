@@ -8,6 +8,7 @@ class Menu:
         self.continu = False
         self.exit = False
         self.jouer = True
+        
     def update(self):
         if self.continu and pyxel.btnp(pyxel.KEY_S):
             self.continu = False

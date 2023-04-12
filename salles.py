@@ -1,7 +1,7 @@
 import pyxel
 import salles
-from machine_sous import Machine_a_Sous
-from des import Des
+from games.machine_sous import Machine_a_Sous
+from games.des import Des
 import porte
 
 

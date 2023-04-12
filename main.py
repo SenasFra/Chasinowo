@@ -2,8 +2,8 @@ import pyxel
 import salles
 import CHAT
 #import pygame
-from machine_sous import Machine_a_Sous
-from des import Des
+from games.machine_sous import Machine_a_Sous
+from games.des import Des
 from menu import Menu
 
 # pygame.init()

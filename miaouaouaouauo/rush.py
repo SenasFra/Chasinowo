@@ -1,50 +1,37 @@
 import pyxel
 from haut import Haut
 from droite import Droite
-from bas import Bas
 from gauche import Gauche
+from bas import Bas
 
-class CHAT:
+class Rush:
     def __init__(self ,x ,y ):
-        self.money = 110000000
-        self.doors_unlocked = []
-        
         self.x = x
         self.y = y
         self.direction = "haut"
         self.base = Haut()
 
     def dess(self):
-        self.base.dess(self.x, self.y)
-        #pyxel.image(2).load(0,0,"assets/character/main/" + self.direction + ".png")
-        #pyxel.blt(self.x, self.y,2,0,0,50,50)
+        self.base.dess(self.x,self.y)
 
 
     def mouv(self, lst):
-        v = 5
         if pyxel.btn(pyxel.KEY_CTRL):
             v = 1
-            
-        if pyxel.btn(pyxel.KEY_Z):
-            #self.direction = "haut"
+        else:
+            v = 5
+        if pyxel.btn(pyxel.KEY_Z) and self._peut_bouger(lst, "haut"):
+            self.y -= v
             self.base = Haut()
-            if self._peut_bouger(lst, "haut"):
-                self.y -= v
-        if pyxel.btn(pyxel.KEY_S):
-            #self.direction = "bas"
+        if pyxel.btn(pyxel.KEY_S) and self._peut_bouger(lst, "bas"):
+            self.y += v
             self.base = Bas()
-            if self._peut_bouger(lst, "bas"):
-                self.y += v
-        if pyxel.btn(pyxel.KEY_D):
-            #self.direction = "droite"
+        if pyxel.btn(pyxel.KEY_D) and self._peut_bouger(lst, "droite"):
+            self.x += v
             self.base = Droite()
-            if self._peut_bouger(lst, "droite"):
-                self.x += v
-        if pyxel.btn(pyxel.KEY_Q):
-            #self.direction = "gauche"
+        if pyxel.btn(pyxel.KEY_Q) and self._peut_bouger(lst, "gauche"):
+            self.x -= v
             self.base = Gauche()
-            if self._peut_bouger(lst, "gauche"):
-                self.x -= v
     
     
     def _peut_bouger(self, lst, direction):
@@ -73,19 +60,3 @@ class CHAT:
                         return False
                 return True
                 
-                
-    def replace_cat(self, room, previous_door_name):
-        reversed_name = ""
-        for l in reversed(previous_door_name):
-            reversed_name += l
-            
-        for porte in room.portes:
-            if porte.name == reversed_name:
-                if porte.is_in_front:
-                    x = porte.coord['x'] + 90 // 2
-                    y = porte.coord['y']
-                else:
-                    x = porte.coord['x']
-                    y = porte.coord['y'] + 90 // 2
-                return x, y
-                    

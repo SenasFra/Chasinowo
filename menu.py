@@ -8,7 +8,6 @@ class Menu:
         self.continu = False
         self.exit = False
         self.jouer = True
-        
     def update(self):
         if self.continu and pyxel.btnp(pyxel.KEY_S):
             self.continu = False
@@ -22,8 +21,32 @@ class Menu:
         if self.exit and pyxel.btnp(pyxel.KEY_Z):
             self.exit = False
             self.continu = True
+        if pyxel.btn(pyxel.KEY_E) or pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
+            if self.new:
+                self.jouer = False
+            if self.exit:
+                pyxel.quit()
+                
 
     def draw(self):
+        print(pyxel.mouse_x, pyxel.mouse_y)
+        if 500 < pyxel.mouse_x < 800 and 340 < pyxel.mouse_y < 380:
+            
+            self.new = True
+            self.continu = False
+            self.exit = False
+            
+        if 500 < pyxel.mouse_x < 800 and 390 < pyxel.mouse_y < 420:
+            self.new = False
+            self.continu = True
+            self.exit = False
+            
+        if 500 < pyxel.mouse_x < 800 and 422 < pyxel.mouse_y < 455:
+            self.new = False
+            self.continu = False
+            self.exit = True
+            
+            
         pyxel.cls(0)
         for x in range(6):
             for y in range(5):

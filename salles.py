@@ -5,11 +5,13 @@ from games.des import Des
 import porte
 
 
+
 class Salle:
-    def __init__(self, coord_mur, portes: list, img_name):
+    def __init__(self, coord_mur, img_name):
         self.mur = coord_mur
-        self.portes = portes
+        self.portes = []
         self.img_name = img_name
+        self.jeux = []
         
     def dess(self):
         for x in range(6):
@@ -31,13 +33,13 @@ class Salle:
         
         
 #création des salles              
-Debut = Salle([[270,140,1025,500]], [], "debut")                
-Un = Salle([[445, 165, 840, 450], [570, 220, 730, 380], [610, 200, 695, 395]], [], "1")                
-Deux = Salle( [[385, 191, 925, 470],[330, 202, 436, 436],[543, 225, 760, 430], [494, 201, 588, 436],[720, 201, 812, 437], [880, 140, 975, 231]], [], "2") 
-Fin = Salle( [[270, 145, 1025, 480], [395, 235, 590, 410], [340, 250, 645, 375], [460, 320, 540, 430], [445, 170, 540, 330], [860, 95, 1075, 215], [895, 175, 1055, 325], [840, 175,940,295]], [], "fin") 
+Debut = Salle([[270,140,1025,500]], "debut")                
+Un = Salle([[445, 165, 840, 450], [570, 220, 730, 380], [610, 200, 695, 395]], "1")                
+Deux = Salle( [[385, 191, 925, 470],[330, 202, 436, 436],[543, 225, 760, 430], [494, 201, 588, 436],[720, 201, 812, 437], [880, 140, 975, 231]], "2") 
+Fin = Salle( [[270, 145, 1025, 480], [395, 235, 590, 410], [340, 250, 645, 375], [460, 320, 540, 430], [445, 170, 540, 330], [860, 95, 1075, 215], [895, 175, 1055, 325], [840, 175,940,295]], "fin") 
                
 
-#création et ajout des portes
+#création, ajout des portes, ajout des jeux
 #salle debut
 Porte_D_1 = porte.Porte("D-1", {'x': 270, 'y': 260}, 1000, Un, False)
 Porte_D_2 = porte.Porte("D-2", {'x': 600, 'y': 140}, 1000, Deux, True)
@@ -50,10 +52,13 @@ Debut.portes.append(Porte_D_F)
 #salle 1
 Porte_1_D = porte.Porte("1-D", {'x': 840, 'y': 340}, 0, Debut, False)
 Un.portes.append(Porte_1_D)
+Un.jeux.append(Des())
 
 #salle 2
 Porte_2_D = porte.Porte("2-D", {'x': 605, 'y': 470}, 0, Debut, True)
 Deux.portes.append(Porte_2_D)
+Deux.jeux.append(Machine_a_Sous())
+
 
 #salle Fin
 Porte_F_D = porte.Porte("F-D", {'x': 590, 'y': 145}, 0, Debut, True)

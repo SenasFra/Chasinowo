@@ -84,6 +84,7 @@ class Roulette():
         #affiche le plateau
         for x in range(6):
             for y in range(1, 4):
+                print(x, y)
                 pyxel.image(0).load(0,0, f"../Images/roulette_img/{x}{y}.jpg")
                 pyxel.blt(x * 225,  (y - 1) * 150, 0, 0, 0, 225, 150)
                 

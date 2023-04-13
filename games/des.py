@@ -6,6 +6,10 @@ class Des:
         self.de1 = "1"
         self.de2 = "2"
         self.i = 6
+        
+        self.jouer = True
+        self.range_x = [595, 705]
+        self.range_y = [375, 405]
 
 
     def affichage(self, de1, de2):
@@ -21,7 +25,8 @@ class Des:
 
 
     def update(self):
-        pass
+        if pyxel.btn(pyxel.KEY_A):
+            self.jouer = False
 
     def draw(self):
         pyxel.cls(1)

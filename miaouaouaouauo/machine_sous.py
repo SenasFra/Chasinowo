@@ -6,10 +6,8 @@ class Machine_a_Sous:
     def __init__(self):
         self.affiche = False
         self.assigned = ""
-        self.range_x = [380, 455]
-        self.range_y = [370, 450]
         self.x = 450
-        self.y = 145
+        self.y = 110
         self.final_a = 0
         self.final_b = -1
         self.final_c = 0
@@ -115,7 +113,7 @@ class Machine_a_Sous:
         pyxel.tri(self.x + 639, self.y + 470, self.x + 619, self.y + 470, self.x + 619, self.y + 450, 3)
         pyxel.tri(self.x + 639, self.y + 530, self.x + 619, self.y + 530, self.x + 619, self.y + 550, 3)
     def update(self):
-        if pyxel.btn(pyxel.KEY_A):
+        if pyxel.btnp(pyxel.KEY_A):
             self.jouer = False
 
     def draw(self):

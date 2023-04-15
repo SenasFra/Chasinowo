@@ -13,7 +13,7 @@ class Porte:
             return self.next_room
         
         if CHAT.money >= self.price:
-            CHAT.money -= self.price
+            #CHAT.money -= self.price
             CHAT.doors_unlocked.append(self.name)
             return self.next_room
         

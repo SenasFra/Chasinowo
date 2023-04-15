@@ -3,7 +3,8 @@ import time
 from random import randint
 
 class Machine_a_Sous:
-    def __init__(self):
+    def __init__(self, CHAT):
+        self.CHAT = CHAT
         self.affiche = False
         self.assigned = ""
         self.range_x = [380, 455]

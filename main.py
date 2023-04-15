@@ -22,9 +22,15 @@ class casino:
         self.jeux = Menu()
         pyxel.run(self.update, self.draw)
         
+    def interface(self):
+        # affiche l'argent
+        pyxel.text(1210, 20, "ARGENT:", 7)
+        pyxel.text(1210, 40, str(self.CHAT.money), 7)
+        
 
     def update(self):
         pyxel.mouse(True)
+        #si on a passé le menu (et éventuellement le scénario)
         if self.jeux is None:
             if pyxel.btnp(pyxel.KEY_E):
                 #changement de salle            
@@ -44,8 +50,9 @@ class casino:
                 #lancement d'un jeu
                 if len(self.current_room.jeux) != 0:
                     for jeux in self.current_room.jeux:
-                        if jeux.range_x[0] < self.CHAT.x < jeux.range_x[1] and jeux.range_y[0] < self.CHAT.y < jeux.range_y[1]:
-                            self.jeux = jeux  
+                        temp = jeux(self.CHAT)  
+                        if temp.range_x[0] < self.CHAT.x < temp.range_x[1] and temp.range_y[0] < self.CHAT.y < temp.range_y[1]:
+                            self.jeux = temp
                             self.jeux.jouer = True
                                 
             if pyxel.btn(pyxel.KEY_A):
@@ -56,8 +63,9 @@ class casino:
                     
             self.CHAT.mouv(self.current_room.mur)
             
-            if self.current_room == None:
-                self.CHAT.mouv(self.salle.mur)
+            
+            # if self.current_room == None:
+            #     self.CHAT.mouv(self.salle.mur)
                 
         else:
             self.jeux.update()
@@ -69,6 +77,7 @@ class casino:
         if self.jeux is None:
             self.current_room.dess()
             self.CHAT.dess()
+            self.interface() 
         else:
             self.jeux.draw()
 

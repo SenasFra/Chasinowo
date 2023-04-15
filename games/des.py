@@ -2,14 +2,14 @@ import pyxel
 from random import randint
 import time
 class Des:
-    def __init__(self):
+    def __init__(self, CHAT):
         self.de1 = "1"
         self.de2 = "2"
         self.col1 = 9
         self.col2 = 9
         self.col3 = 9
         self.argent_joue = 0
-        self.player_money = 1750
+        self.CHAT = CHAT
         self.parie = 2
         self.i = 6
         self.j = 6
@@ -68,7 +68,7 @@ class Des:
         self.de1 = str(randint(1,6))
         self.de2 = str(randint(1, 6))
         if self.gagne():
-            self.player_money += 1.5 * self.argent_joue
+            self.CHAT.money += 1.5 * self.argent_joue
         self.argent_joue = 0
         self.col1 = self.col2 = self.col3 = 9
 
@@ -83,24 +83,24 @@ class Des:
         if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
             if pyxel.pget(pyxel.mouse_x,pyxel.mouse_y) == 9:
                 if 1000<=pyxel.mouse_x<=1050:
-                    if 100<=pyxel.mouse_y<=150 and self.player_money>=1000:
+                    if 100<=pyxel.mouse_y<=150 and self.CHAT.money>=1000:
                         self.col1 = 10
                         self.argent_joue += 1000
-                        self.player_money -= 1000
-                    if 200<=pyxel.mouse_y<=250 and self.player_money>=500:
+                        self.CHAT.money -= 1000
+                    if 200<=pyxel.mouse_y<=250 and self.CHAT.money>=500:
                         self.col2 = 10
                         self.argent_joue += 500
-                        self.player_money -= 500
-                    if 300<=pyxel.mouse_y<=350 and self.player_money>=250:
+                        self.CHAT.money -= 500
+                    if 300<=pyxel.mouse_y<=350 and self.CHAT.money>=250:
                         self.col3 = 10
                         self.argent_joue += 250
-                        self.player_money -= 250
+                        self.CHAT.money -= 250
         if pyxel.btnp(pyxel.KEY_Z) and self.parie<12:
             self.parie+=1
         if pyxel.btnp(pyxel.KEY_S) and self.parie>2:
             self.parie-=1
         if pyxel.btnp(pyxel.KEY_O):
-            print(str(self.argent_joue)+", "+str(self.player_money))
+            print(str(self.argent_joue)+", "+str(self.CHAT.money))
 
     def draw(self):
         if pyxel.btnp(pyxel.KEY_SPACE):

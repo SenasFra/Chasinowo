@@ -1,14 +1,20 @@
 import pyxel
 
 from random import randint
+from assets.tokens.tokens_opti.token_1 import Token_1
+from assets.tokens.tokens_opti.token_2 import Token_2
+from assets.tokens.tokens_opti.token_5 import Token_5
+from assets.tokens.tokens_opti.token_10 import Token_10
+from assets.tokens.tokens_opti.token_20 import Token_20
+from assets.tokens.tokens_opti.token_50 import Token_50
 
 class Roulette():
-    def __init__(self):
+    def __init__(self, CHAT):
         self.range_x = [405, 465]
         self.range_y = [265, 350]
         self.jouer = True
+        self.CHAT = CHAT
         
-        self.user_money = 50000
         self.wages = []
         self.bets = []
         self.result = -1
@@ -48,8 +54,16 @@ class Roulette():
         self.x_50_token = self.x_20_token + self.token_gap
 
         self.y_token = 500
+        
+        self.token_1 = Token_1()
+        self.token_2 = Token_2()
+        self.token_5 = Token_5()
+        self.token_10 = Token_10()
+        self.token_20 = Token_20()
+        self.token_50 = Token_50()
 
         self.token_taken = 0
+        self.tokens = {1: self.token_1, 2: self.token_2, 5: self.token_5, 10: self.token_10, 20: self.token_20, 50: self.token_50}
         self.token_color = {1: 14, 2: 10, 5: 11, 10: 12, 20: 13, 50: 0}
         self.token_value = {1: 10000, 2: 20000, 5: 50000, 10: 100000, 20: 200000, 50: 500000}
 
@@ -61,6 +75,8 @@ class Roulette():
         
     def update(self):
         #quitte le jeu 
+        
+        
         if pyxel.btnp(pyxel.KEY_A):
             self.jouer = False
             
@@ -88,24 +104,22 @@ class Roulette():
                 pyxel.blt(x * 225,  (y - 1) * 150, 0, 0, 0, 225, 150)
                 
         
-        #les jetons
-        self.draw7Tokens()
+        #les jetons que l'on peut choisir
+        self.draw6Tokens()
+        
+        #les jetons posés sur le plateau
+        self.displayTokensOnBoard()
         
         #crée le curseur
         self.cursor(pyxel.mouse_x, pyxel.mouse_y)
         
-        #affiche les jetons posés sur le plateau
-        if len(self.tokens_on_board) != 0:
-            for token in self.tokens_on_board:
-                #pyxel.circ(token['x'], token['y'], token['radius'], token['color'])
-                pyxel.image(0).load(0,0, f"assets/tokens/token_{token['color']}.png")
-                pyxel.blt(token['x'],  token['y'], 0, 0, 0, 40, 40)
+        
                 
         #affiche le résultat, l'argent du joueur
         if self.result != -1:
             pyxel.text(500, 500, f"Résultat: {self.result}", 7)
             self.add_ball_on_roulette()
-        pyxel.text(600, 500, f"Argent : {self.user_money}", 7)
+        pyxel.text(600, 500, f"Argent : {self.CHAT.money}", 7)
 
     def play(self):
         #les résultats de la roulette
@@ -124,7 +138,7 @@ class Roulette():
         
     def roulette_results(self):
         for i in range(len(self.bets)):
-            print(self.user_money, self.result, self.bets[i], self.wages[i])           
+            print(self.CHAT.money, self.result, self.bets[i], self.wages[i])           
             bet = self.bets[i]
             wage = self.wages[i]
             
@@ -146,20 +160,20 @@ class Roulette():
             => X36
             """
             double_the_wage = (bet == "1 to 18" and self.result in range(1, 19)) or (bet == "19 to 36" and self.result in range(19, 36)) \
-                or (type(bet) is int and (bet == "even" and self.result % 2 == 0) or (bet == "odd" and self.result % 2 != 0)) \
+                or ((bet == "even" and self.result % 2 == 0) or (bet == "odd" and self.result % 2 != 0)) \
                 or (bet == "red" and self.result in self.red_numbers) or (bet == "black" and self.result in self.black_numbers)
 
             triple_the_wage = (bet == "first 12" and self.result in range(1, 13)) or (bet == "second 12" and self.result in range(13, 25))  or (bet == "third 12" and self.result in range(25, 37)) \
                 or (bet == "first 2 to 1" and self.result in range(1, 13)) or (bet == "second 2 to 1" and self.result in range(13, 25))  or (bet == "third 2 to 1" and self.result in range(25, 37))
             
             if double_the_wage:
-                self.user_money += wage * 2
+                self.CHAT.money += wage * 2
             elif triple_the_wage:
-                self.user_money += wage * 3
+                self.CHAT.money += wage * 3
             elif type(bet) is int and bet == self.result:
-                self.user_money += wage * 36
+                self.CHAT.money += wage * 36
             else:
-                self.user_money += 0
+                self.CHAT.money += 0
             
             
             
@@ -170,12 +184,22 @@ class Roulette():
             self.tokens_on_board.pop()
             self.bets.pop()
             self.wages.pop()
+            
+    def displayTokensOnBoard(self):
+        #affiche les jetons posés sur le plateau
+        if len(self.tokens_on_board) != 0:
+            for token in self.tokens_on_board:
+                # pyxel.image(0).load(0,0, f"assets/tokens/token_{token['color']}.png")
+                # pyxel.blt(token['x'],  token['y'], 0, 0, 0, 40, 40)
+                token["token"].dess(token['x'], token['y'])
 
         
     def placeToken(self, x, y):
-        self.tokens_on_board.append({'x': x // 2 - 20, 'y': y // 2 - 20, 'diameter': self.token_diameter, 'color': self.token_taken}) #pose le jeton sur le plateau
+        #self.tokens_on_board.append({'x': x // 2 - 20, 'y': y // 2 - 20, 'diameter': self.token_diameter, 'color': self.token_taken}) #pose le jeton sur le plateau
+        self.tokens_on_board.append({"token": self.tokens[self.token_taken], 'x': x // 2 - 20, 'y': y // 2 - 20}) #pose le jeton sur le plateau
+        
         self.wages.append(self.token_value[self.token_taken])
-        self.user_money -= self.token_value[self.token_taken]
+        self.CHAT.money -= self.token_value[self.token_taken]
         self.token_taken = 0
                 
     def placeTokenOnBoard(self, x, y):
@@ -378,37 +402,35 @@ class Roulette():
                 self.bets.append("19 to 36")
             
 
-    def draw7Tokens(self):
-        for k, n in enumerate([1, 2, 5, 10, 20, 50]):
-            pyxel.image(0).load(0,0, f"assets/tokens/token_{n}.png")
-            pyxel.blt(self.x_1_token + 50 * k,  self.y_token, 0, 0, 0, 40, 40)
+    def draw6Tokens(self):
+        k = 0
+        for n, token in self.tokens.items():
+            token.dess(self.x_1_token + 50 * k,  self.y_token)
             pyxel.text(self.x_1_token + 10 + (self.token_diameter * 1.25) * k, self.y_token + self.token_diameter + 10, str(self.token_value[n]), 7)
-        # pyxel.circ(self.x_1_token, self.y_token, self.token_radius, self.token_color[1])
-        # pyxel.circ(self.x_2_token, self.y_token, self.token_radius, self.token_color[2])
-        # pyxel.circ(self.x_5_token, self.y_token, self.token_radius, self.token_color[5])
-        # pyxel.circ(self.x_10_token, self.y_token, self.token_radius, self.token_color[10])
-        # pyxel.circ(self.x_20_token, self.y_token, self.token_radius, self.token_color[20])
-        # pyxel.circ(self.x_50_token, self.y_token, self.token_radius, self.token_color[50])
+            k+=1
+        # for k, n in enumerate([1, 2, 5, 10, 20, 50]):
+        #     pyxel.image(0).load(0,0, f"assets/tokens/token_{n}.png")
+        #     pyxel.blt(self.x_1_token + 50 * k,  self.y_token, 0, 0, 0, 40, 40)
         
         
     def takeToken(self, x):
         #jeton 1
-        if self.x_1_token < x < self.x_1_token + self.token_diameter and self.user_money >= 10000:
+        if self.x_1_token < x < self.x_1_token + self.token_diameter and self.CHAT.money >= 10000:
             self.token_taken = 1
         #jeton 2
-        elif self.x_2_token < x < self.x_2_token + self.token_diameter and self.user_money >= 20000:
+        elif self.x_2_token < x < self.x_2_token + self.token_diameter and self.CHAT.money >= 20000:
             self.token_taken = 2
         #jeton 5
-        elif self.x_5_token < x < self.x_5_token + self.token_diameter and self.user_money >= 50000:
+        elif self.x_5_token < x < self.x_5_token + self.token_diameter and self.CHAT.money >= 50000:
             self.token_taken = 5
         #jeton 10
-        elif self.x_10_token < x < self.x_10_token + self.token_diameter and self.user_money >= 100000:
+        elif self.x_10_token < x < self.x_10_token + self.token_diameter and self.CHAT.money >= 100000:
             self.token_taken = 10
         #jeton 20
-        elif self.x_20_token < x < self.x_20_token + self.token_diameter and self.user_money >= 200000:
+        elif self.x_20_token < x < self.x_20_token + self.token_diameter and self.CHAT.money >= 200000:
             self.token_taken = 20
         #jeton 50
-        elif self.x_50_token < x < self.x_50_token + self.token_diameter and self.user_money >= 500000:
+        elif self.x_50_token < x < self.x_50_token + self.token_diameter and self.CHAT.money >= 500000:
             self.token_taken = 50
         else:
             self.token_taken = 0
@@ -417,9 +439,9 @@ class Roulette():
 
     def cursor(self, x, y):
         if self.token_taken != 0:
-            #pyxel.circ(x, y, self.token_radius, self.token_color[self.token_taken])
-            pyxel.image(0).load(0,0, f"assets/tokens/token_{self.token_taken}.png")
-            pyxel.blt(x - 20,  y - 20, 0, 0, 0, 40, 40)
+            # pyxel.image(0).load(0,0, f"assets/tokens/token_{self.token_taken}.png")
+            # pyxel.blt(x - 20,  y - 20, 0, 0, 0, 40, 40)
+            self.tokens[self.token_taken].dess(x - 20, y - 20)
         else: 
             pyxel.circ(x, y, 5, 7)
             

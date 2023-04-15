@@ -1,3 +1,5 @@
 .idea/**
 __pycache__/**
 README.md
+test_salle.py
+test.py

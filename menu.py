@@ -29,7 +29,6 @@ class Menu:
                 
 
     def draw(self):
-        print(pyxel.mouse_x, pyxel.mouse_y)
         if 500 < pyxel.mouse_x < 800 and 340 < pyxel.mouse_y < 380:
             
             self.new = True

@@ -24,6 +24,7 @@ class casino:
         
 
     def update(self):
+        pyxel.mouse(True)
         if self.jeux is None:
             if pyxel.btnp(pyxel.KEY_E):
                 #changement de salle            
@@ -43,15 +44,15 @@ class casino:
                 #lancement d'un jeu
                 if len(self.current_room.jeux) != 0:
                     for jeux in self.current_room.jeux:
-                        print(self.CHAT.x, self.CHAT.y, jeux.range_x[0], jeux.range_x[1], jeux.range_y[0] , jeux.range_y[1])
                         if jeux.range_x[0] < self.CHAT.x < jeux.range_x[1] and jeux.range_y[0] < self.CHAT.y < jeux.range_y[1]:
                             self.jeux = jeux  
                             self.jeux.jouer = True
-                            print(self.jeux)              
                                 
             if pyxel.btn(pyxel.KEY_A):
                 print(self.CHAT.x, self.CHAT.y, self.CHAT.money, self.CHAT.doors_unlocked, self.jeux)
-                    
+            
+            if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
+                print(pyxel.mouse_x, pyxel.mouse_y)
                     
             self.CHAT.mouv(self.current_room.mur)
             

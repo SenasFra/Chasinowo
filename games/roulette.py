@@ -1,11 +1,14 @@
 import pyxel
-import scalablewritingpyxel
 
 from random import randint
 
 class Roulette():
-    def __init__(self, user_money):
-        self.user_money = user_money
+    def __init__(self):
+        self.range_x = [405, 465]
+        self.range_y = [265, 350]
+        self.jouer = True
+        
+        self.user_money = 50000
         self.wages = []
         self.bets = []
         self.result = -1
@@ -55,13 +58,12 @@ class Roulette():
         #les couleurs
         self.red_numbers  = [1, 3,  5, 7, 9, 12,  14,  16, 18, 19, 21, 23, 25, 27, 30, 32, 36]
         self.black_numbers = [2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 34, 35]
-
-        #lancement du jeu
-        pyxel.init(1350, 670)
-        pyxel.cls(1)
-        pyxel.run(self.update, self.draw)
         
     def update(self):
+        #quitte le jeu 
+        if pyxel.btnp(pyxel.KEY_A):
+            self.jouer = False
+            
         if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
             x = pyxel.mouse_x
             y = pyxel.mouse_y
@@ -82,7 +84,7 @@ class Roulette():
         #affiche le plateau
         for x in range(6):
             for y in range(1, 4):
-                pyxel.image(0).load(0,0, f"../assets/roulette/{x}{y}.jpg")
+                pyxel.image(0).load(0,0, f"assets/roulette/{x}{y}.jpg")
                 pyxel.blt(x * 225,  (y - 1) * 150, 0, 0, 0, 225, 150)
                 
         
@@ -96,7 +98,7 @@ class Roulette():
         if len(self.tokens_on_board) != 0:
             for token in self.tokens_on_board:
                 #pyxel.circ(token['x'], token['y'], token['radius'], token['color'])
-                pyxel.image(0).load(0,0, f"../assets/tokens/token_{token['color']}.png")
+                pyxel.image(0).load(0,0, f"assets/tokens/token_{token['color']}.png")
                 pyxel.blt(token['x'],  token['y'], 0, 0, 0, 40, 40)
                 
         #affiche le résultat, l'argent du joueur
@@ -378,7 +380,7 @@ class Roulette():
 
     def draw7Tokens(self):
         for k, n in enumerate([1, 2, 5, 10, 20, 50]):
-            pyxel.image(0).load(0,0, f"../assets/tokens/token_{n}.png")
+            pyxel.image(0).load(0,0, f"assets/tokens/token_{n}.png")
             pyxel.blt(self.x_1_token + 50 * k,  self.y_token, 0, 0, 0, 40, 40)
             pyxel.text(self.x_1_token + 10 + (self.token_diameter * 1.25) * k, self.y_token + self.token_diameter + 10, str(self.token_value[n]), 7)
         # pyxel.circ(self.x_1_token, self.y_token, self.token_radius, self.token_color[1])
@@ -416,16 +418,8 @@ class Roulette():
     def cursor(self, x, y):
         if self.token_taken != 0:
             #pyxel.circ(x, y, self.token_radius, self.token_color[self.token_taken])
-            pyxel.image(0).load(0,0, f"../assets/tokens/token_{self.token_taken}.png")
+            pyxel.image(0).load(0,0, f"assets/tokens/token_{self.token_taken}.png")
             pyxel.blt(x - 20,  y - 20, 0, 0, 0, 40, 40)
         else: 
             pyxel.circ(x, y, 5, 7)
             
-        
-
-
-    
-
-
-
-Roulette(50000)

@@ -2,8 +2,8 @@ import pyxel
 from games.machine_sous import Machine_a_Sous
 from games.des import Des
 from games.roulette import Roulette
-import porte
-
+from porte import Porte
+from chatbox import Chatbox
 
 
 class Salle:
@@ -12,18 +12,30 @@ class Salle:
         self.portes = []
         self.img_name = img_name
         self.jeux = jeux
+        self.cats = []
+        self.chatboxes = []
         
     def dess(self):
         for x in range(6):
             for y in range(4):
                 pyxel.image(0).load(0, 0, f"assets/{self.img_name}/{x}{y}.png")
                 pyxel.blt(x*225, y*170, 0 ,0, 0, 225, 170)
+        
+        #affiche les chats        
+        if len(self.cats) != 0:
+            for cat in self.cats:
+                pyxel.image(0).load(0, 0, f"assets/character/{cat['name']}.png")
+                pyxel.blt(cat["coord"][0], cat["coord"][1], 0 ,0, 0, 50, 50)
+                
+        #chatbox
+        if len(self.chatboxes) != 0:
+            for chatbox in self.chatboxes:
+                chatbox.dess()
+    
                 
     def take_door(self, x, y):
         for porte in self.portes:
             #retourne une porte selon l'endroit où elle se trouve (sur les côtés ou de haut en bas)
-            # if (porte.coord['x'] - 5 <= x < porte.coord['x'] + 5 and porte.coord['y'] < y < porte.coord['y']) + 90 or (porte.coord['x'] < x < porte.coord['x'] + 90 and porte.coord['y'] - 5 <= y < porte.coord['y'] + 5):
-            #     return porte
             if not porte.is_in_front:
                 if porte.coord['x'] - 5 <= x <= porte.coord['x'] + 5 and porte.coord['y'] <= y <= porte.coord['y'] + porte.size:
                     return porte
@@ -42,40 +54,44 @@ Fin = Salle( [[270, 145, 1025, 480], [395, 235, 590, 410], [340, 250, 645, 375],
 
 #création, ajout des portes, ajout des jeux
 #salle debut
-Porte_D_1 = porte.Porte("D-1", {'x': 270, 'y': 260}, 1000, Un, False, 55) 
-Porte_D_2 = porte.Porte("D-2", {'x': 620, 'y': 140}, 1000, Deux, True, 60)
-# #Porte_D_3 = porte.Porte("D-3", {'x': 1025, 'y': 300}, 0, salles.Trois)
-Porte_D_F = porte.Porte("D-F", {'x': 615, 'y': 500}, 1000000, Fin, True, 60)
+Porte_D_1 = Porte("D-1", {'x': 270, 'y': 260}, 1000, Un, False, 55) 
+Porte_D_2 = Porte("D-2", {'x': 620, 'y': 140}, 1000, Deux, True, 60)
+# #Porte_D_3 = Porte("D-3", {'x': 1025, 'y': 300}, 0, salles.Trois)
+Porte_D_F = Porte("D-F", {'x': 615, 'y': 500}, 1000000, Fin, True, 60)
 Debut.portes.append(Porte_D_1)
 Debut.portes.append(Porte_D_2)
 Debut.portes.append(Porte_D_F)
 
 #salle 1
-Porte_1_D = porte.Porte("1-D", {'x': 840, 'y': 365}, 0, Debut, False, 45)
-Porte_1_5 = porte.Porte ("1-5", {'x': 635, 'y': 165}, 10000, Cinq, True, 55)
+Porte_1_D = Porte("1-D", {'x': 840, 'y': 365}, 0, Debut, False, 45)
+Porte_1_5 = Porte ("1-5", {'x': 635, 'y': 165}, 10000, Cinq, True, 55)
 Un.portes.append(Porte_1_D)
 Un.portes.append(Porte_1_5)
 
 
 #salle 2
-Porte_2_D = porte.Porte("2-D", {'x': 630, 'y': 470}, 0, Debut, True, 50)
-Porte_2_4 = porte.Porte("2-4", {'x': 925, 'y': 300}, 32500, Quatre, False, 50)
+Porte_2_D = Porte("2-D", {'x': 630, 'y': 470}, 0, Debut, True, 50)
+Porte_2_4 = Porte("2-4", {'x': 925, 'y': 300}, 32500, Quatre, False, 50)
 Deux.portes.append(Porte_2_D)
 Deux.portes.append(Porte_2_4)
+
+from assets.tokens.tokens_opti.token_50 import Token_50
+Deux.cats.append({"coord": [920, 190], "name": "greycat_"})
+Deux.chatboxes.append(Chatbox(Token_50(), "MIAOU", "Es-tu un chat ? Je pense que non ? ... Quoi !? tu me dis que tu es un chat ? Mais quel idiotie !!!", "Mais ! Je suis un chat !!!", "Haha ! Tu m'as bien eu!", "MIAAAAAAAAAAAAAAAAAAAOUUUUUUUUUUUUUUUU"))
 
 #salle 3
 
 #salle 4
-Porte_4_2 = porte.Porte ("4-2", {'x': 380, 'y': 305}, 0, Deux, False, 30)
+Porte_4_2 = Porte ("4-2", {'x': 380, 'y': 305}, 0, Deux, False, 30)
 Quatre.portes.append(Porte_4_2)
 
 #salle 5
-Porte_5_1 = porte.Porte("5-1", {'x': 640, 'y':545}, 0, Un, True, 25)
+Porte_5_1 = Porte("5-1", {'x': 640, 'y':545}, 0, Un, True, 25)
 Cinq.portes.append(Porte_5_1)
 
 #salle Fin
-Porte_F_D = porte.Porte("F-D", {'x': 605, 'y': 145}, 0, Debut, True, 60)
-Porte_F_7 = porte.Porte("F-7", {'x': 1020, 'y': 325}, 0, Debut, False, 30)
+Porte_F_D = Porte("F-D", {'x': 605, 'y': 145}, 0, Debut, True, 60)
+Porte_F_7 = Porte("F-7", {'x': 1020, 'y': 325}, 0, Debut, False, 30)
 Fin.portes.append(Porte_F_D)
 #Fin.portes.append(Porte_F_7)
 

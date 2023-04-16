@@ -6,7 +6,7 @@ from gauche import Gauche
 
 class CHAT:
     def __init__(self ,x ,y ):
-        self.money = 1500
+        self.money = 1500000
         self.doors_unlocked = []
         
         self.x = x

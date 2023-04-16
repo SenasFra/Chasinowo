@@ -18,7 +18,7 @@ class casino:
         pyxel.mouse(True)
         self.CHAT = CHAT.CHAT(650,425)
         self.previous_room = None
-        self.current_room = salles.Debut
+        self.current_room = salles.Quatre
         self.jeux = Menu()
         pyxel.run(self.update, self.draw)
         

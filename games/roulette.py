@@ -1,4 +1,5 @@
 import pyxel
+from assets.font.PyxelUnicode import PyxelUnicode
 
 from random import randint
 from assets.tokens.tokens_opti.token_1 import Token_1
@@ -10,6 +11,8 @@ from assets.tokens.tokens_opti.token_50 import Token_50
 
 class Roulette():
     def __init__(self, CHAT):
+        self.font = PyxelUnicode("assets/font/pixelmix.ttf", 20)
+        self.font_token_value = PyxelUnicode("assets/font/pixelmix.ttf", 12)
         self.range_x = [405, 465]
         self.range_y = [265, 350]
         self.jouer = True
@@ -117,9 +120,9 @@ class Roulette():
                 
         #affiche le résultat, l'argent du joueur
         if self.result != -1:
-            pyxel.text(500, 500, f"Résultat: {self.result}", 7)
+            self.font.text(850, 500, f"Resultat: {self.result}")
             self.add_ball_on_roulette()
-        pyxel.text(600, 500, f"Argent : {self.CHAT.money}", 7)
+        self.font.text(500, 500, f"Argent : {self.CHAT.money}")
 
     def play(self):
         #les résultats de la roulette
@@ -406,7 +409,7 @@ class Roulette():
         k = 0
         for n, token in self.tokens.items():
             token.dess(self.x_1_token + 50 * k,  self.y_token)
-            pyxel.text(self.x_1_token + 10 + (self.token_diameter * 1.25) * k, self.y_token + self.token_diameter + 10, str(self.token_value[n]), 7)
+            self.font_token_value.text(self.x_1_token + 15 + (self.token_diameter * 1.25) * k, self.y_token + self.token_diameter + 10, str(self.token_value[n] // 10000))
             k+=1
         # for k, n in enumerate([1, 2, 5, 10, 20, 50]):
         #     pyxel.image(0).load(0,0, f"assets/tokens/token_{n}.png")

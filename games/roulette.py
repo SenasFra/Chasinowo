@@ -183,9 +183,12 @@ class Roulette():
             
     def resetGame(self):
         #retire les jetons du plateau
-        while len(self.tokens_on_board) != 0: #il y a autant de mises que de jetons
+        while len(self.tokens_on_board) != 0:
             self.tokens_on_board.pop()
+        #réinitialise les paris
+        while len(self.bets) != 0:
             self.bets.pop()
+        while len(self.wages) != 0:
             self.wages.pop()
             
     def displayTokensOnBoard(self):
@@ -442,8 +445,6 @@ class Roulette():
 
     def cursor(self, x, y):
         if self.token_taken != 0:
-            # pyxel.image(0).load(0,0, f"assets/tokens/token_{self.token_taken}.png")
-            # pyxel.blt(x - 20,  y - 20, 0, 0, 0, 40, 40)
             self.tokens[self.token_taken].dess(x - 20, y - 20)
         else: 
             pyxel.circ(x, y, 5, 7)

@@ -16,9 +16,6 @@ class CHAT:
 
     def dess(self):
         self.base.dess(self.x, self.y)
-        #pyxel.image(2).load(0,0,"assets/character/main/" + self.direction + ".png")
-        #pyxel.blt(self.x, self.y,2,0,0,50,50)
-
 
     def mouv(self, lst):
         v = 5

@@ -1,14 +1,14 @@
 import pyxel
 import salles
 import CHAT
-#import pygame
+import pygame
+import random
 from games.machine_sous import Machine_a_Sous
 from games.des import Des
 from menu import Menu
+import os
 
-# pygame.init()
-# pygame.mixer.music.load("assets/Musiques/Nouveau_projet.mp3")
-#pygame.mixer.music.play(-1)
+pygame.init()
 
 Menu_interface = Menu()
 
@@ -16,6 +16,10 @@ class casino:
     def __init__(self):
         pyxel.init(1350, 680, title= "ChasinOwO")
         pyxel.mouse(True)
+        self.musiques = os.listdir("assets/Musiques")
+        random.shuffle(self.musiques)
+        pygame.mixer.music.load("assets/Musiques/" + self.musiques[0])
+        pygame.mixer.music.play()
         self.CHAT = CHAT.CHAT(650,425)
         self.previous_room = None
         self.current_room = salles.Debut
@@ -73,6 +77,7 @@ class casino:
                 self.jeux = None 
 
     def draw(self):
+        self.musique()
         #si il n'y a pas de jeux lancé, on affiche la salle sinon on affiche le jeu
         if self.jeux is None:
             self.current_room.dess()
@@ -81,10 +86,15 @@ class casino:
         else:
             self.jeux.draw()
 
+    def musique(self):
+        if not pygame.mixer.music.get_busy():
+            self.musiques.pop(0)
+            pygame.mixer.music.load("assets/Musiques/" + self.musiques[0])
+            pygame.mixer.music.play()
+            if len(self.musiques)==1:
+                self.played_music =self.musiques[0]
+                self.musiques = os.listdir("assets/Musiques")
+                random.shuffle(self.musiques)
+                self.musiques.insert(0,self.played_music)
 
-running = True
-while running:
-    # for event in pygame.event.get():
-    #     if event.type == pygame.QUIT:
-    #         running = False
-    casino()
+casino()

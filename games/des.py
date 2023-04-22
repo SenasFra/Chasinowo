@@ -11,9 +11,9 @@ class Des:
         
         self.de1 = "1"
         self.de2 = "2"
-        self.couleur_mise_1 = 9
-        self.couleur_mise_2 = 9
-        self.couleur_mise_3 = 9
+        self.couleur_mise_1000 = 9
+        self.couleur_mise_500 = 9
+        self.couleur_mise_250 = 9
         self.argent_joue = 0
         self.bets = []
         self.jouer = True
@@ -24,6 +24,7 @@ class Des:
         self.i = 6
         self.j = 6
         self.k = 2
+        self.frames_counter = 0
 
 
 
@@ -35,11 +36,11 @@ class Des:
             pyxel.image(0).load(0, 0, "assets/des/" + de2 + ".png")
             pyxel.blt(725, 100, 0, 0, 0, 200, 200)
 
-    def affichage(self):
+    def afficher_mise(self):
         #affichage de l'argent, de ce qu'on peut miser
-        pyxel.rect(1000, 100, 50, 50, self.couleur_mise_1)
-        pyxel.rect(1000, 200, 50, 50, self.couleur_mise_2)
-        pyxel.rect(1000, 300, 50, 50, self.couleur_mise_3)
+        pyxel.rect(1000, 100, 50, 50, self.couleur_mise_1000)
+        pyxel.rect(1000, 200, 50, 50, self.couleur_mise_500)
+        pyxel.rect(1000, 300, 50, 50, self.couleur_mise_250)
         self.font2.text(1060, 97, "1000 $w$")
         self.font2.text(1060, 197, "500 $w$")
         self.font2.text(1060, 297, "250 $w$")
@@ -69,79 +70,96 @@ class Des:
                 self.font1.text(980,500,"12",color=10,bg_color=0)
 
     def tirer(self):
-        self.i = 0
-        self.j = 0
-        self.k = 0
         self.de1 = str(randint(1,6))
         self.de2 = str(randint(1, 6))
         self.CHAT.money += self.money_won()
         #réinitialise le jeu
         self.argent_joue = 0
-        self.couleur_mise_1 = self.couleur_mise_2 = self.couleur_mise_3 = 9
+        self.couleur_mise_1000 = self.couleur_mise_500 = self.couleur_mise_250 = 9
         while len(self.bets) != 0:
             self.bets.pop()
 
     def money_won(self):
         result = int(self.de1) + int(self.de2)
+        result = 9
         #le joueur a parier sur une fourchette de 12
         if len(self.bets) == 2 and (self.bets[0] == 2 and self.bets[1] == 12):
             return self.argent_joue
-        #le joueur a parié que sur un nombre
-        if len(self.bets) == 1 and result == self.bets[0]:
-            return self.argent_joue * 4
+        #le joueur a parié que sur un nombre et gagne
+        if len(self.bets) == 1 and result == self.bets[0] or len(self.bets) == 2 and result == self.bets[0]:
+            return round(self.argent_joue / (1/11))
+        #le joueur a perdu sur son nombre
         if len(self.bets) == 1 and result != self.bets[0]:
             return 0
-        #le joueur a parié sur une fourchette quelconque
+        #le joueur a parié sur une fourchette
         if (result in range(self.bets[0], self.bets[1] + 1)) or (result in range(self.bets[1], self.bets[0] + 1)):
-            return self.argent_joue * round(2 - (len(self.bets) / 11))
+            #le joueur a parié sur la fourchette simple (taux de win >= 45%)
+            if abs(self.bets[0] - self.bets[1]) + 1 >= 5:
+                return round(self.argent_joue * (2 - ((abs(self.bets[0] - self.bets[1]) + 1) / 11)))
+            #le joueur a parié sur une fourchette dure (taux de win < 45%)
+            return round(self.argent_joue / ((abs(self.bets[0] - self.bets[1]) + 1) / 11))
         
         #le joueur a perdu
         return 0
              
         
-    def chose_bets(self, number):
+    def change_bets(self, number):
         if len(self.bets) == 2:
             self.bets.pop(0)
         self.bets.append(number)
     
     def chose_range_to_bet(self, x):
             if 160 <= x <= 185:
-                self.chose_bets(2)
+                self.change_bets(2)
             if 240 <= x <= 265:
-                self.chose_bets(3)
+                self.change_bets(3)
             if 320 <= x <= 345:
-                self.chose_bets(4)
+                self.change_bets(4)
             if 400 <= x <= 425:
-                self.chose_bets(5)
+                self.change_bets(5)
             if 480 <= x <= 505:
-                self.chose_bets(6)
+                self.change_bets(6)
             if 560 <= x <= 585:
-                self.chose_bets(7)
+                self.change_bets(7)
             if 640 <= x <= 665:
-                self.chose_bets(8)
+                self.change_bets(8)
             if 720 <= x <= 745:
-                self.chose_bets(9)
+                self.change_bets(9)
             if 800 <= x <= 825:
-                self.chose_bets(10)
+                self.change_bets(10)
             if 890 <= x <= 915:
-                self.chose_bets(11)
+                self.change_bets(11)
             if 980 <= x <= 1005:
-                self.chose_bets(12)
+                self.change_bets(12)
         
-    def select_wage(self, y):
-        if 100<= y <= 150 and self.CHAT.money >= 1000 and self.couleur_mise_1 == 9:
-            self.couleur_mise_1 = 10
+    def select_stake(self, y):
+        if 100<= y <= 150 and self.CHAT.money >= 1000 and self.couleur_mise_1000 == 9:
+            self.couleur_mise_1000 = 10
             self.argent_joue += 1000
             self.CHAT.money -= 1000
-        if 200<= y <= 250 and self.CHAT.money >= 500 and self.couleur_mise_2 == 9:
-            self.couleur_mise_2 = 10
+        if 200<= y <= 250 and self.CHAT.money >= 500 and self.couleur_mise_500 == 9:
+            self.couleur_mise_500 = 10
             self.argent_joue += 500
             self.CHAT.money -= 500
-        if 300<= y <= 350 and self.CHAT.money >= 250 and self.couleur_mise_3 == 9:
-            self.couleur_mise_3 = 10
+        if 300<= y <= 350 and self.CHAT.money >= 250 and self.couleur_mise_250 == 9:
+            self.couleur_mise_250 = 10
             self.argent_joue += 250
             self.CHAT.money -= 250
         
+    def display_dice(self):
+        if self.i < 6 and self.j > 1:
+            self.i+=1
+            self.j -=1
+            self.affichage_des_resultats(str(self.i),str(self.j))
+            self.frames_counter+=1
+        elif self.k < 2:
+            self.j = 6
+            self.i = 1
+            self.k += 1
+            self.affichage_des_resultats(str(self.i), str(self.j))
+            self.frames_counter+=1
+        else:
+            self.affichage_des_resultats(self.de1,self.de2)
 
     def update(self):
         #quitte le jeu
@@ -152,7 +170,7 @@ class Des:
         if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
             #sélection de la mise 
             if 1000<=pyxel.mouse_x<=1050:
-                self.select_wage(pyxel.mouse_y)
+                self.select_stake(pyxel.mouse_y)
                     
             #choisis l'intervalle de pari       
             if 500<=pyxel.mouse_y<=540:
@@ -167,28 +185,23 @@ class Des:
     def draw(self):
         #lance les dés
         if pyxel.btnp(pyxel.KEY_SPACE) and len(self.bets) >= 1 and self.argent_joue > 0:
-            self.tirer()
+            self.i = 0
+            self.j = 0
+            self.k = 0
             
-        #affichage des nombres, mises, argent, rrésultats et animation des dés
+        #affichage des nombres, mises, argent, résultats et animation des dés
         if self.frame == 3:
             self.frame = 0
-            pyxel.cls(1)
-            self.affichage()
+            pyxel.cls(5)
+            self.afficher_mise()
             self.affichage_des_nombres()
-            if self.i < 6 and self.j > 1:
-                self.i+=1
-                self.j -=1
-                self.affichage_des_resultats(str(self.i),str(self.j))
-            elif self.k < 2:
-                self.j = 6
-                self.i = 1
-                self.k += 1
-                self.affichage_des_resultats(str(self.i), str(self.j))
-                # if self.gagne():
-                #     self.CHAT.money += 1.5 * self.argent_joue
-            else:
-                self.affichage_des_resultats(self.de1,self.de2)
+            self.display_dice()
+            #modifie l'argent du joueur après l'affichage du résultat
+            if self.frames_counter == 12:
+                self.tirer()
+                self.frames_counter = 0
         else:
-            self.frame+=1
+            self.frame += 1
+            
             
             

@@ -1,5 +1,6 @@
 import pickle
-
+import time
+import pyxel
 # money = 5000
 # doors = ["miaou", "miaou", "miaou"]
 
@@ -36,14 +37,18 @@ import pickle
 
 # pyxel.show()
 
-import asyncio
+# import asyncio
 
-def wait():
-    print("miaou")
+# def wait():
+#     print("miaou")
+#     return True
 
-async def main():
-    print('Hello ...')
-    await asyncio.sleep(1, result=wait())
-    print('... World!')
+# async def main():
+#     print('Hello ...')
+#     await asyncio.sleep(1, result=wait())
+#     print('... World!')
 
-asyncio.run(main())
+# asyncio.run(main())
+
+mioau = {'a': 0, 'b': 0, 'a': 0}
+print(mioau)

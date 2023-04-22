@@ -18,8 +18,8 @@ class casino:
         pyxel.mouse(True)
         self.CHAT = CHAT.CHAT(650,425)
         self.previous_room = None
-        self.current_room = salles.Debut
-        self.jeux = Menu()
+        self.current_room = salles.Deux
+        self.jeux = Machine_a_Sous(self.CHAT)
         pyxel.run(self.update, self.draw)
         
     def interface(self):

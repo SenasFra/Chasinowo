@@ -98,13 +98,13 @@ class Roulette():
             self.placeTokenOnBoard(x, y)
                 
     def draw(self):
-        pyxel.cls(1)
+        pyxel.cls(5)
         
         #affiche le plateau
         for x in range(6):
-            for y in range(1, 4):
-                pyxel.image(0).load(0,0, f"assets/roulette/{x}{y}.jpg")
-                pyxel.blt(x * 225,  (y - 1) * 150, 0, 0, 0, 225, 150)
+            for y in range(4):
+                pyxel.image(0).load(0,0, f"assets/roulette/{x}{y}.png")
+                pyxel.blt(x * 225,  y * 150, 0, 0, 0, 225, 150)
                 
         
         #les jetons que l'on peut choisir
@@ -195,13 +195,10 @@ class Roulette():
         #affiche les jetons posés sur le plateau
         if len(self.tokens_on_board) != 0:
             for token in self.tokens_on_board:
-                # pyxel.image(0).load(0,0, f"assets/tokens/token_{token['color']}.png")
-                # pyxel.blt(token['x'],  token['y'], 0, 0, 0, 40, 40)
                 token["token"].dess(token['x'], token['y'])
 
         
     def placeToken(self, x, y):
-        #self.tokens_on_board.append({'x': x // 2 - 20, 'y': y // 2 - 20, 'diameter': self.token_diameter, 'color': self.token_taken}) #pose le jeton sur le plateau
         self.tokens_on_board.append({"token": self.tokens[self.token_taken], 'x': x // 2 - 20, 'y': y // 2 - 20}) #pose le jeton sur le plateau
         
         self.wages.append(self.token_value[self.token_taken])
@@ -446,6 +443,5 @@ class Roulette():
     def cursor(self, x, y):
         if self.token_taken != 0:
             self.tokens[self.token_taken].dess(x - 20, y - 20)
-        else: 
-            pyxel.circ(x, y, 5, 7)
+
             

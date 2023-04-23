@@ -6,7 +6,7 @@ import random
 from games.machine_sous import Machine_a_Sous
 from games.des import Des
 from games.roulette import Roulette
-from games.blackjack import Blackjack
+from games.blackjack import Blackjack   
 from menu import Menu
 import os
 
@@ -23,7 +23,7 @@ class casino:
         # pygame.mixer.music.play()
         self.CHAT = CHAT.CHAT(650,425)
         self.previous_room = None
-        self.current_room = salles.Deux
+        self.current_room = salles.Debut
         self.jeux = None
         self.chatbox_activated = False
         self.dialogue_reset = True
@@ -58,9 +58,7 @@ class casino:
                         
             if pyxel.btnr(pyxel.KEY_E) and not self.chatbox_activated and self.dialogue_reset:            
                 #active une chatbox
-                print(self.current_room.current_chatbox)
                 for chatbox in self.current_room.chatboxes:
-                    print(chatbox.range_x , self.CHAT.x ,chatbox.range_y, self.CHAT.y)
                     if chatbox.range_x[0] - 5 <= self.CHAT.x <= chatbox.range_x[1] + 5 and chatbox.range_y[0] - 5 <= self.CHAT.y <= chatbox.range_y[1] + 5:
                         self.current_room.current_chatbox = chatbox
                         self.current_room.current_chatbox.chatbox_activated = True

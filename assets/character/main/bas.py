@@ -1,3 +1,8 @@
+"""
+#fichier Bas:
+Il nous permet d'avoir l'image du Chat lorsque l'on veut aller à bas en ayant le fond transparent.
+De plus il permet aussi de faire l'animation du chat qui marche vers la bas.
+"""
 import pyxel
 class Bas:
     def __init__(self):

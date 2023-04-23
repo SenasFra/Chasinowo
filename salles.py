@@ -8,12 +8,13 @@ from chatbox import Chatbox
 
 class Salle:
     def __init__(self, coord_mur, img_name, jeux):
-        self.mur = coord_mur
+        self.hitbox = coord_mur
         self.portes = []
         self.img_name = img_name
         self.jeux = jeux
         self.cats = []
         self.chatboxes = []
+        self.current_chatbox = None
         
     def dess(self):
         for x in range(6):
@@ -28,10 +29,12 @@ class Salle:
                 pyxel.blt(cat["coord"][0], cat["coord"][1], 0 ,0, 0, 50, 50)
                 
         #chatbox
-        if len(self.chatboxes) != 0:
-            for chatbox in self.chatboxes:
-                chatbox.dess()
-    
+        if self.current_chatbox is not None and self.current_chatbox.chatbox_activated:
+            self.current_chatbox.dess()
+        else:
+            self.current_chatbox = None
+
+            
                 
     def take_door(self, x, y):
         for porte in self.portes:
@@ -47,7 +50,7 @@ class Salle:
 #création des salles              
 Debut = Salle([[270,140,1025,500]], "debut", [])                
 Un = Salle([[445, 165, 840, 450], [570, 220, 730, 380], [610, 200, 695, 395]], "1", [Des])                
-Deux = Salle( [[385, 191, 925, 470],[330, 202, 436, 425],[543, 225, 760, 425], [494, 201, 588, 425],[720, 201, 812, 425], [880, 140, 975, 231]], "2", [Machine_a_Sous]) 
+Deux = Salle( [[385, 170, 925, 470],[330, 202, 436, 425],[543, 225, 760, 425], [494, 201, 588, 425],[720, 201, 812, 425], [880, 140, 975, 220]], "2", [Machine_a_Sous]) #[880, 140, 975, 231]
 Quatre = Salle([[380, 65, 920, 550], [455, 215, 650, 405], [740, 60, 850, 440], [900, 60, 925, 345], [415, 275, 455, 340], [645, 270, 675, 345], [700, 70, 740, 135], [700, 145, 740, 210], [700, 220, 785, 300], [700, 295, 740, 350]], "4", [Roulette])
 Cinq = Salle([[520, 90, 775, 545], [590, 230, 695, 370], [620, 210, 670, 390]], "5", [])
 Fin = Salle( [[270, 145, 1025, 480], [395, 235, 590, 410], [340, 250, 645, 375], [460, 320, 540, 430], [445, 170, 540, 330], [860, 95, 1075, 215], [895, 175, 1055, 325], [840, 175,940,295]], "fin", []) 
@@ -77,7 +80,18 @@ Deux.portes.append(Porte_2_4)
 
 from assets.tokens.tokens_opti.token_50 import Token_50
 Deux.cats.append({"coord": [920, 190], "name": "greycat_"})
-Deux.chatboxes.append(Chatbox(Token_50(), "MIAOU", "Es-tu un chat ? Je pense que non ? ... Quoi !? tu me dis que tu es un chat ? Mais quel idiotie !!!", "Mais ! Je suis un chat !!!", "Haha ! Tu m'as bien eu!", "MIAAAAAAAAAAAAAAAAAAAOUUUUUUUUUUUUUUUU"))
+chatbox_miaou = Chatbox(Token_50(), Deux, {}, "Miaou", "MIAOUUOUOUO C FINI UWU UWU UWU UWU MIOAU MIOAU MIOUA MIOUA MOUA MIOU MIOAM IO MIAOU MUAO MOAU")
+chatbox_miou = Chatbox(Token_50(), Deux, {1: chatbox_miaou}, "miaou", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+
+chatbox_demande_caresse = Chatbox(Token_50(), Deux, {2: chatbox_miou, 3: chatbox_miaou}, "MIAOU", "Es-tu un chat ? Je pense que non ? ... Quoi !? tu me dis que tu es un chat ? Mais quel idiotie !!!", "Mais ! Je suis un chat !!!", "Haha ! Tu m'as bien eu!", "MIAAAAAAAAAAAAAAAAAAAOUUUUUUUUUUUUUUUU")
+chatbox_demande_caresse.range_x = [875, 925]
+chatbox_demande_caresse.range_y = [190,240]
+
+Deux.chatboxes.append(chatbox_demande_caresse)
+
+
+# Deux.chatboxes.append(Chatbox(Token_50(), Deux, "MIAOU", "Es-tu un chat ? Je pense que non ? ... Quoi !? tu me dis que tu es un chat ? Mais quel idiotie !!!", "Mais ! Je suis un chat !!!", "Haha ! Tu m'as bien eu!", "MIAAAAAAAAAAAAAAAAAAAOUUUUUUUUUUUUUUUU")) #
+# Deux.chatboxes.append(Chatbox(Token_50(), Deux, "MIAOU", "Es-tu un chat ? Je pense que non ? ... Quoi !? tu me dis que tu es un chat ? Mais quel idiotie !!!", "Mais ! Je suis un chat !!!", "Haha ! Tu m'as bien eu!", "MIAAAAAAAAAAAAAAAAAAAOUUUUUUUUUUUUUUUU")) #
 
 #salle 3
 

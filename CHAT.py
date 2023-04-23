@@ -1,8 +1,8 @@
 import pyxel
-from haut import Haut
-from droite import Droite
-from bas import Bas
-from gauche import Gauche
+from assets.character.main.haut import Haut
+from assets.character.main.droite import Droite
+from assets.character.main.bas import Bas
+from assets.character.main.gauche import Gauche
 
 class CHAT:
     def __init__(self ,x ,y ):

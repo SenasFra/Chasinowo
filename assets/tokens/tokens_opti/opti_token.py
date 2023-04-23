@@ -4,6 +4,7 @@ pyxel.init(40,40) #tailles des jetons
 
 def update():
     if pyxel.btnp(pyxel.KEY_U):
+        print("active")
         #choisir un nom
         with open("./token_50.py", "w") as fichier:
             fichier.write("import pyxel\n")
@@ -14,7 +15,7 @@ def update():
             for x in range(40):
                 for y in range(40):
                     c = pyxel.pget(x, y)
-                    if not c == 1 : #la couleur du fond du token
+                    if not c == 5: #la couleur du fond du token
                         txt = "        pyxel.pset(x+" +str(x) + ",y+" + str(y) + "," + str(c) + ")"
                         fichier.write(txt+"\n")
 

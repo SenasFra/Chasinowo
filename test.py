@@ -49,6 +49,53 @@ import pyxel
 #     print('... World!')
 
 # asyncio.run(main())
+# import threading
 
-mioau = {'a': 0, 'b': 0, 'a': 0}
-print(mioau)
+# def do_something():
+#     # do some time-consuming task here
+#     print("miaou")
+
+# # Define a function to run the timeout thread
+# def timeout():
+#     global timer_expired
+#     timer_expired = False
+#     timer = threading.Timer(1, handle_timeout) # Timeout after 10 seconds
+#     timer.start()
+#     timer.join()
+#     if timer_expired:
+#         raise Exception("Time's up!")
+#     else:
+#         timer.cancel()
+
+# # Define a function to handle the timeout
+# def handle_timeout():
+#     global timer_expired
+#     timer_expired = True
+
+# # Start the timeout thread and run the function
+# timer_expired = False
+# timeout_thread = threading.Thread(target=timeout)
+# timeout_thread.start()
+
+# do_something()
+
+# # Wait for the timeout thread to finish
+# timeout_thread.join()
+
+def change_miaou(miaou):
+    miaou = "UwU"
+class a():
+    def __init__(self, miaou):
+        self.miaou = miaou
+        
+    def miaule(self):
+        print(self.miaou)
+        
+    def ronronne(self):
+        change_miaou(self.miaou)
+        
+chat = a("miaou")
+chat.miaule()
+chat.ronronne()
+chat.miaule()
+        

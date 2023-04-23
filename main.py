@@ -5,6 +5,8 @@ import pygame
 import random
 from games.machine_sous import Machine_a_Sous
 from games.des import Des
+from games.roulette import Roulette
+from games.blackjack import Blackjack
 from menu import Menu
 import os
 
@@ -16,15 +18,19 @@ class casino:
     def __init__(self):
         pyxel.init(1350, 680, title= "ChasinOwO")
         pyxel.mouse(True)
-        self.musiques = os.listdir("assets/Musiques")
-        random.shuffle(self.musiques)
-        pygame.mixer.music.load("assets/Musiques/" + self.musiques[0])
-        pygame.mixer.music.play()
+        # random.shuffle(self.musiques)
+        # pygame.mixer.music.load("assets/Musiques/" + self.musiques[0])
+        # pygame.mixer.music.play()
         self.CHAT = CHAT.CHAT(650,425)
         self.previous_room = None
         self.current_room = salles.Deux
-        self.jeux = Machine_a_Sous(self.CHAT)
+        self.jeux = None
+        self.chatbox_activated = False
+        self.dialogue_reset = True
+        
+        
         pyxel.run(self.update, self.draw)
+        
         
     def interface(self):
         # affiche l'argent
@@ -36,7 +42,7 @@ class casino:
         pyxel.mouse(True)
         #si on a passé le menu (et éventuellement le scénario)
         if self.jeux is None:
-            if pyxel.btnp(pyxel.KEY_E):
+            if pyxel.btnp(pyxel.KEY_E) and not self.chatbox_activated:
                 #changement de salle            
                 porte = self.current_room.take_door(self.CHAT.x, self.CHAT.y)
                 #vérifie si on peut entrer
@@ -50,6 +56,19 @@ class casino:
                         new_coord = self.CHAT.replace_cat(self.current_room, previous_door_name)
                         self.CHAT.x, self.CHAT.y = new_coord[0], new_coord[1]
                         
+            if pyxel.btnr(pyxel.KEY_E) and not self.chatbox_activated and self.dialogue_reset:            
+                #active une chatbox
+                print(self.current_room.current_chatbox)
+                for chatbox in self.current_room.chatboxes:
+                    print(chatbox.range_x , self.CHAT.x ,chatbox.range_y, self.CHAT.y)
+                    if chatbox.range_x[0] - 5 <= self.CHAT.x <= chatbox.range_x[1] + 5 and chatbox.range_y[0] - 5 <= self.CHAT.y <= chatbox.range_y[1] + 5:
+                        self.current_room.current_chatbox = chatbox
+                        self.current_room.current_chatbox.chatbox_activated = True
+                        self.chatbox_activated = True
+            
+            if pyxel.btnp(pyxel.KEY_E):
+                self.dialogue_reset = True
+              
                         
                 #lancement d'un jeu
                 if len(self.current_room.jeux) != 0:
@@ -64,8 +83,9 @@ class casino:
             
             if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
                 print(pyxel.mouse_x, pyxel.mouse_y)
-                    
-            self.CHAT.mouv(self.current_room.mur)
+                                
+            if not self.chatbox_activated:       
+                self.CHAT.mouv(self.current_room.hitbox)
             
             
             # if self.current_room == None:
@@ -77,12 +97,15 @@ class casino:
                 self.jeux = None 
 
     def draw(self):
-        self.musique()
+        #self.musique()
         #si il n'y a pas de jeux lancé, on affiche la salle sinon on affiche le jeu
         if self.jeux is None:
             self.current_room.dess()
             self.CHAT.dess()
             self.interface() 
+            if self.current_room.current_chatbox is None and self.chatbox_activated:
+                self.chatbox_activated = False
+                self.dialogue_reset = False
         else:
             self.jeux.draw()
 

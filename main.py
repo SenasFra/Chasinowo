@@ -8,6 +8,7 @@ from games.des import Des
 from games.roulette import Roulette
 from games.blackjack import Blackjack   
 from menu import Menu
+from assets.font.PyxelUnicode import PyxelUnicode
 import os
 
 pygame.init()
@@ -16,6 +17,7 @@ Menu_interface = Menu()
 
 class casino:
     def __init__(self):
+        self.font = PyxelUnicode("assets/font/pixelmix.ttf", 20)
         pyxel.init(1350, 680, title= "ChasinOwO")
         pyxel.mouse(True)
         # random.shuffle(self.musiques)
@@ -34,8 +36,15 @@ class casino:
         
     def interface(self):
         # affiche l'argent
-        pyxel.text(1210, 20, "ARGENT:", 7)
-        pyxel.text(1210, 40, str(self.CHAT.money), 7)
+        if True:
+            pyxel.image(0).load(0, 0, "assets/UI/UI_inventory_opened.png")
+            pyxel.blt(1210, 20, 0 ,0, 0, 138, 606)
+        else:
+            #pyxel.image(0).load(0, 0, "assets/UI/UI.png")
+            pyxel.blt(1210, 20, 0 ,0, 0, 138, 606)
+            self.font.text(1230, 50, str(self.CHAT.money))
+
+        
         
 
     def update(self):

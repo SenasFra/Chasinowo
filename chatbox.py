@@ -35,7 +35,7 @@ class Chatbox:
                 pyxel.line(k,505,k,555,7)
                 if self.reponse1 is not None or self.reponse2 is not None or self.reponse3 is not None:
                     pyxel.line(800+k,504,800+k,680,7)
-            self.font.text(40,520,self.nom_chat)
+            self.font.text(12,520,self.nom_chat)
             
             #affichage du texte côté question (celui à gauche)
             if self.reponse1 == None and self.reponse2== None and self.reponse3 == None:

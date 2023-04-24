@@ -26,7 +26,7 @@ class casino:
         self.CHAT = CHAT.CHAT(650,425)
         self.previous_room = None
         self.current_room = salles.Debut
-        self.jeux = None
+        self.jeux = Menu()
         self.chatbox_activated = False
         self.dialogue_reset = True
         
@@ -37,15 +37,16 @@ class casino:
     def interface(self):
         # affiche l'argent
         if True:
-            pyxel.image(0).load(0, 0, "assets/UI/UI_inventory_opened.png")
-            pyxel.blt(1210, 20, 0 ,0, 0, 138, 606)
+            pyxel.image(0).load(0, 0, "assets/UI/UI_1.png")
+            pyxel.blt(1205, 20, 0, 0, 0, 138, 157)
+            pyxel.image(0).load(0, 0, "assets/UI/UI_2.png")
+            pyxel.blt(1205, 400, 0, 0, 0, 138, 237)
+            self.font.text(1226, 50, str(self.CHAT.money))
         else:
-            #pyxel.image(0).load(0, 0, "assets/UI/UI.png")
-            pyxel.blt(1210, 20, 0 ,0, 0, 138, 606)
-            self.font.text(1230, 50, str(self.CHAT.money))
-
-        
-        
+            pyxel.image(0).load(0, 0, "assets/UI/UI_inventory_opened_1.png")
+            pyxel.blt(1205, 20, 0, 0, 0, 138, 198)
+            pyxel.image(0).load(0, 0, "assets/UI/UI_inventory_opened_2.png")
+            pyxel.blt(1205, 218, 0, 0, 0, 138, 198)
 
     def update(self):
         pyxel.mouse(True)

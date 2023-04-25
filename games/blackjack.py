@@ -153,7 +153,7 @@ class Blackjack():
     def show_dealer_value(self):
         #affiche la valeur de la main du croupier
         if self.dealer_value != 0:
-            self.font_hand_value.text(self.dealer_value_position['x'], self.dealer_value_position['y'], str(self.get_dealer_value()))
+            self.font_hand_value.text(self.dealer_value_position['x'], self.dealer_value_position['y'], str(self.dealer_value))
             
     def show_player_value(self):
         #affiche la valeur de la main du joueur
@@ -279,10 +279,11 @@ class Blackjack():
         self.player_hand.append(self.deck[-1])
         self.drawed_card = self.deck[-1]
         self.deck.pop()
+        
 
     def end_game(self):
         #si le joueur a la même valeur que le croupier et que l'on a pas encore pioché
-        if self.player_value == self.dealer_value and len(self.player_hand) == 2 and (self.player_value >= self.dealer_value >= 17):
+        if self.player_value == self.dealer_value and self.dealer_value >= 17:
             self.is_draw = True
             self.game_ended = True
             self.game_started = False
@@ -317,6 +318,12 @@ class Blackjack():
             return "Perdu"
         #si le joueur dépasse 21
         if self.player_value > 21:
+            self.has_lost = True
+            self.game_ended = True
+            self.game_started = False
+            return "Perdu"
+        #si le croupier a 17 ou plus et a plus que le joueur
+        if self.dealer_value >= 17 and self.dealer_value > self.player_value:
             self.has_lost = True
             self.game_ended = True
             self.game_started = False

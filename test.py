@@ -82,20 +82,7 @@ import pyxel
 # # Wait for the timeout thread to finish
 # timeout_thread.join()
 
-def change_miaou(miaou):
-    miaou = "UwU"
-class a():
-    def __init__(self, miaou):
-        self.miaou = miaou
+temp = time.time()
         
-    def miaule(self):
-        print(self.miaou)
-        
-    def ronronne(self):
-        change_miaou(self.miaou)
-        
-chat = a("miaou")
-chat.miaule()
-chat.ronronne()
-chat.miaule()
-        
+while time.time() - temp < 1:
+    print(time.time() - temp)

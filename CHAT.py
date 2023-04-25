@@ -6,7 +6,7 @@ from assets.character.main.gauche import Gauche
 
 class CHAT:
     def __init__(self ,x ,y ):
-        self.money = 1500000
+        self.money = 2000000
         self.doors_unlocked = []
         
         self.x = x
@@ -75,9 +75,10 @@ class CHAT:
         reversed_name = ""
         for l in reversed(previous_door_name):
             reversed_name += l
-            
+        
+        #repositionne le chat au milieu de la largeur de la porte qu'il a pris    
         for porte in room.portes:
-            if porte.name == reversed_name:
+            if porte.name in reversed_name:
                 if porte.is_in_front:
                     x = porte.coord['x'] + porte.size // 2
                     y = porte.coord['y']
@@ -86,3 +87,5 @@ class CHAT:
                     y = porte.coord['y'] + porte.size // 2
                 return x, y
                     
+    def highlight_E_button(self):
+         pass

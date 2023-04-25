@@ -1,9 +1,10 @@
 import pyxel
-
+import time
 from assets.font.PyxelUnicode import PyxelUnicode
+from timeout import wait
 
 class Chatbox:
-    def __init__(self, image, salle, next_chatboxes, nom,question, rep1 = None,rep2 = None,rep3 = None):
+    def __init__(self, image, salle, next_chatboxes, nom, question, rep1 = None,rep2 = None,rep3 = None):
         self.font = PyxelUnicode("assets/font/pixelmix.ttf", 20)
         self.range_x = []
         self.range_y = []
@@ -17,25 +18,32 @@ class Chatbox:
         self.reponse2 = rep2
         self.reponse3 = rep3
         self.selected = 0
+        
+        self.temp = time.time()
             
-        if len(self.next_chatboxes) != 0:
+        if len(self.next_chatboxes) != 0 or rep1 is not None:
             self.selected = 1
         
         
         self.chatbox_activated = True
 
-    def dess(self):
+    def dess(self, porte = None, CHAT = None):
         if self.chatbox_activated:
-            pyxel.rect(0,500,1350,430,0)
-            self.image_chat.dess(0,376)
-            for k in range(5):
-                pyxel.line(0,500+k,1350,500+k,7)
-                pyxel.line(204 + k, 505, 204 + k, 555, 7)
-                pyxel.line(0, 555 + k, 208, 555 + k, 7)
-                pyxel.line(k,505,k,555,7)
-                if self.reponse1 is not None or self.reponse2 is not None or self.reponse3 is not None:
-                    pyxel.line(800+k,504,800+k,680,7)
-            self.font.text(12,520,self.nom_chat)
+            pyxel.rect(0,500,1350,430,0) #le cadre de toute la chatbox
+            pyxel.rect(0, 500, 1350, 5, 7) #la bande blanche du haut
+            
+            #si c'est la chatbox d'un chat
+            if self.image_chat is not None and self.nom_chat is not None:
+                #image du chat
+                self.image_chat.dess(0, 376)
+                self.font.text(12, 520, self.nom_chat)
+                #encadré du nom
+                pyxel.rect(20 * len(self.nom_chat),  505,  5,  50,  7)
+                pyxel.rect(0,  555,  20 * len(self.nom_chat) + 5,  5,  7)
+            
+            #la ligne qui partage la question et les réponses
+            if self.reponse1 is not None or self.reponse2 is not None or self.reponse3 is not None:
+                pyxel.rect(800, 504, 5, 180, 7)
             
             #affichage du texte côté question (celui à gauche)
             if self.reponse1 == None and self.reponse2== None and self.reponse3 == None:
@@ -83,7 +91,12 @@ class Chatbox:
                     
                 self.selectAnswer(pyxel.mouse_x, pyxel.mouse_y)
                 
-            self.next_chatbox(pyxel.mouse_x, pyxel.mouse_y)
+            
+            if porte is not None and CHAT is not None:
+                self.next_chatbox(pyxel.mouse_x, pyxel.mouse_y, porte, CHAT)
+            else:
+                self.next_chatbox(pyxel.mouse_x, pyxel.mouse_y)
+            
                 
     def displayArrowAndAnswers(self):
         #affiche les réponses et la flèche sur la réponse
@@ -150,8 +163,10 @@ class Chatbox:
             else:
                 self.selected = 2
                     
-    def next_chatbox(self, x, y):
+    def next_chatbox(self, x, y, porte = None, CHAT = None):
+        
         can_change_chatbox_by_clicking = False
+        #change la variable qui permet mettre fin au dialogue actuel
         if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
             if self.reponse1 is self.reponse2 is self.reponse3 is None:
                 can_change_chatbox_by_clicking = False
@@ -164,13 +179,37 @@ class Chatbox:
             
             
         #sélectionne la réponse lorsque l'on clique ou que l'on appuie sur E
-        if pyxel.btnp(pyxel.KEY_E) or can_change_chatbox_by_clicking:
-            print("miaou je clique UwU")
+        if (pyxel.btnp(pyxel.KEY_E) or can_change_chatbox_by_clicking) and self.wait(0.1):
             #active la prochaine chatbox s'il y en a une et désactive l'actuelle
-            if self.selected != 0 and self.selected in self.next_chatboxes.keys():
+            if (self.selected != 0 and self.selected in self.next_chatboxes.keys()):
                 self.next_chatboxes[self.selected].chatbox_activated = True
                 self.salle.current_chatbox = self.next_chatboxes[self.selected]
                 
+            if porte is not None and CHAT is not None:  
+                self.door_bought(porte, CHAT)
                 
             self.chatbox_activated = False
+            
+    def door_bought(self, porte, CHAT):
+        #achète la porte
+        if self.selected == 1 and self.reponse1 == "Acheter":
+            if CHAT.money >= porte.price and CHAT.money >= porte.money_condition:
+                print("Acheter ça marche")
+                CHAT.money -= porte.price
+                CHAT.doors_unlocked.append(porte.name)
+                CHAT.doors_unlocked.append(self.door_name_reversed(porte.name))
+                return True
+            
+    def door_name_reversed(self, door_name):
+        #renverse le nom d'une porte
+        result = ""
+        for l in reversed(door_name):
+            result += l
+        return result
+            
+    def wait(self, second):
+            if time.time() - self.temp < second:
+                return False
+                
+            return True
                     

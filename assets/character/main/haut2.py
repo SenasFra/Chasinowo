@@ -5,15 +5,13 @@ De plus il permet aussi de faire l'animation du chat qui marche vers la haut.
 """
 
 import pyxel
-import time
-
 class Haut:
     def __init__(self):
         pass
 
-    def dess(self,x,y):
-        if pyxel.btn(pyxel.KEY_Z):
-            if time.time() % 0.5 < 0.25:
+    def dess(self,x,y,up):
+        if up:
+            if pyxel.frame_count % 2 == 0:
                 pyxel.pset(x + 5, y + 14, 5)
                 pyxel.pset(x + 5, y + 15, 0)
                 pyxel.pset(x + 5, y + 16, 0)

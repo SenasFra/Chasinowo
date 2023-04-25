@@ -4,13 +4,15 @@ Il nous permet d'avoir l'image du Chat lorsque l'on veut aller à bas en ayant l
 De plus il permet aussi de faire l'animation du chat qui marche vers la bas.
 """
 import pyxel
+import time
+
 class Bas:
     def __init__(self):
         pass
 
     def dess(self,x,y):
         if pyxel.btn(pyxel.KEY_S):
-            if pyxel.frame_count % 2 == 0:
+            if time.time() % 0.5 < 0.25:
                 pyxel.pset(x + 10, y + 32, 0)
                 pyxel.pset(x + 10, y + 33, 1)
                 pyxel.pset(x + 11, y + 32, 0)

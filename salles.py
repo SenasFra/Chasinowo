@@ -2,7 +2,6 @@ import pyxel
 from games.machine_sous import Machine_a_Sous
 from games.des import Des
 from games.roulette import Roulette
-from games.blackjack import Blackjack
 from porte import Porte
 from chatbox import Chatbox
 from assets.character.pnj.greycat import Greycat
@@ -34,12 +33,7 @@ class Salle:
         if len(self.cats) != 0:
             for cat in self.cats:
                 cat["cat"].dess(cat["coord"][0], cat["coord"][1])
-                
-        #chatbox
-        if self.current_chatbox is not None and self.current_chatbox.chatbox_activated:
-            self.current_chatbox.dess()
-        else:
-            self.current_chatbox = None
+
 
             
                 
@@ -66,7 +60,7 @@ class Salle:
 Debut = Salle([[260,115,1040,505], [730, 460, 800, 510]], "debut", [])
 Un = Salle([[430, 145, 855, 455], [570, 220, 730, 355], [615, 180, 690, 380]], "1", [Des])
 Deux = Salle( [[385, 170, 925, 470],[330, 205, 425, 415], [500, 201, 588, 425],[550, 225, 760, 425],[720, 201, 800, 420], [880, 140, 975, 220],  [800, 270, 850, 340]], "2", [Machine_a_Sous])
-Trois = Salle([[400, 115, 925, 500], [410, 125, 605, 240],[700, 115, 895, 240], [710, 370, 905, 465], [420, 370, 615, 465], [465, 450, 550, 600], [755, 455, 845, 550], [465, 50, 560, 200], [755, 50, 845, 200], [628, 465, 700, 800]], "3", [Blackjack]) # [628, 465, 700, 800] = Plot
+Trois = Salle([[400, 115, 925, 500], [410, 125, 605, 240],[700, 115, 895, 240], [710, 370, 905, 465], [420, 370, 615, 465], [465, 450, 550, 600], [755, 455, 845, 550], [465, 50, 560, 200], [755, 50, 845, 200], [628, 465, 700, 800]], "3", []) # [628, 465, 700, 800] = Plot
 Quatre = Salle([[380, 65, 920, 550], [455, 215, 650, 405], [740, 60, 850, 440], [900, 60, 925, 345], [415, 275, 455, 340], [645, 240, 675, 345],[700, 0, 740, 210], [700, 220, 785, 300], [700, 295, 740, 350]], "4", [Roulette])
 Cinq = Salle([[520, 90, 775, 545], [590, 230, 695, 370], [620, 210, 670, 390], [697, 425, 800, 475], [520, 385, 775, 440]], "5", [])   #[520, 385, 775, 440] = rangée de plots /// [697, 425, 800, 475] = Chat
 Fin = Salle( [[260, 120, 1035, 480], [400, 240, 590, 390], [340, 255, 645, 355], [460, 325, 540, 410], [445, 170, 540, 330], [860, 95, 1075, 215],  [855, 175,940, 270], [895, 175, 1055, 305], [940, 305, 1015, 325]],  "fin", []) 

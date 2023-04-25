@@ -10,7 +10,6 @@ from games.blackjack import Blackjack
 from menu import Menu
 from assets.font.PyxelUnicode import PyxelUnicode
 import os
-
 pygame.init()
 
 Menu_interface = Menu()
@@ -26,9 +25,10 @@ class casino:
         self.CHAT = CHAT.CHAT(650,425)
         self.previous_room = None
         self.current_room = salles.Trois
-        self.jeux = Blackjack(self.CHAT)
+        self.jeux = Menu()
         self.chatbox_activated = False
         self.dialogue_reset = True
+
         
         
         pyxel.run(self.update, self.draw)
@@ -50,6 +50,7 @@ class casino:
 
     def update(self):
         pyxel.mouse(True)
+
         #si on a passé le menu (et éventuellement le scénario)
         if self.jeux is None:
             if pyxel.btnp(pyxel.KEY_E) and not self.chatbox_activated:
@@ -73,8 +74,6 @@ class casino:
                         self.current_room.current_chatbox = chatbox
                         self.current_room.current_chatbox.chatbox_activated = True
                         self.chatbox_activated = True
-                        
-                
             
             if pyxel.btnp(pyxel.KEY_E):
                 self.dialogue_reset = True
@@ -104,7 +103,7 @@ class casino:
         else:
             self.jeux.update()
             if not self.jeux.jouer:
-                self.jeux = None 
+                self.jeux = None
 
     def draw(self):
         #self.musique()
@@ -113,6 +112,13 @@ class casino:
             self.current_room.dess()
             self.CHAT.dess()
             self.interface() 
+            """ gestion des chatbox """
+            #il y une chatbox de lancé donc on la dessine
+            if self.current_room.current_chatbox is not None and self.current_room.current_chatbox.chatbox_activated:
+                self.current_room.current_chatbox.dess()
+            #soit le joueur n'a pas lancé de chatbox soit il en a quitté une
+            else:
+                self.current_room.current_chatbox = None
             if self.current_room.current_chatbox is None and self.chatbox_activated:
                 self.chatbox_activated = False
                 self.dialogue_reset = False

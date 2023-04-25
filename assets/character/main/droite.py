@@ -5,13 +5,15 @@ De plus il permet aussi de faire l'animation du chat qui marche vers la droite.
 """
 
 import pyxel
+import time
+
 class Droite:
     def __init__(self):
         pass
 
     def dess(self,x,y):
         if pyxel.btn(pyxel.KEY_D):
-            if pyxel.frame_count % 2 == 0:
+            if time.time() % 0.4 < 0.2:
                 pyxel.pset(x + 0, y + 3, 5)
                 pyxel.pset(x + 0, y + 4, 0)
                 pyxel.pset(x + 0, y + 5, 0)

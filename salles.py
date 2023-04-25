@@ -10,6 +10,8 @@ from assets.character.pnj.greycat_backward import Greycat_backward
 from assets.others.plot import plot
 from assets.others.chatrpentier import chatrpentier
 from assets.tokens.tokens_opti.token_50 import Token_50
+
+
 from assets.character.pnj.lunettes import Lunettes
 from assets.character.pnj.orange_cat import Orange_Cat
 from assets.character.pnj.blue_cat import Blue_Cat
@@ -18,6 +20,15 @@ from assets.character.pnj.mainly_white_cat import Mainly_White_Cat
 from assets.character.pnj.colorful_cat import Colorful_Cat
 from assets.character.pnj.chattarde import Chattarde
 from assets.character.pnj.cheisenberg import Cheisenberg
+
+from assets.character.pnj.pnjheads.lunettes_head import Lunettes
+from assets.character.pnj.pnjheads.orange_head import Orange_Cat
+from assets.character.pnj.pnjheads.blue_head import Blue_Cat
+from assets.character.pnj.pnjheads.yellow_head import Yellow_Cat
+from assets.character.pnj.pnjheads.mainly_white_head import Mainly_White_Cat
+from assets.character.pnj.pnjheads.colorful_head import Colorful_Cat
+from assets.character.pnj.pnjheads.chattarde_head import Chattarde
+#from assets.character.pnj.pnjheads.cheisenberg_head import Cheisenberg
 
 class Salle:
     def __init__(self, coords_hitbox: list, img_name: object, jeux: object, sieges: list):

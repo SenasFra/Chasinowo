@@ -25,8 +25,8 @@ class casino:
         # pygame.mixer.music.play()
         self.CHAT = CHAT.CHAT(650,425)
         self.previous_room = None
-        self.current_room = salles.Debut
-        self.jeux = Menu()
+        self.current_room = salles.Trois
+        self.jeux = Blackjack(self.CHAT)
         self.chatbox_activated = False
         self.dialogue_reset = True
         
@@ -73,6 +73,8 @@ class casino:
                         self.current_room.current_chatbox = chatbox
                         self.current_room.current_chatbox.chatbox_activated = True
                         self.chatbox_activated = True
+                        
+                
             
             if pyxel.btnp(pyxel.KEY_E):
                 self.dialogue_reset = True

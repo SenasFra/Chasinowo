@@ -121,7 +121,7 @@ class Machine_a_Sous:
             self.token_taken = 0
             
     def place_token_in_game(self):
-        #augmente la mise selon le jeotn insérer
+        #augmente la mise selon le jeton inséré
         self.mise += self.token_value[self.token_taken]
         self.CHAT.money -= self.token_value[self.token_taken]
         self.token_taken = 0

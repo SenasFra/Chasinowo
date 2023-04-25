@@ -78,8 +78,6 @@ class Roulette():
         
     def update(self):
         #quitte le jeu 
-        
-        
         if pyxel.btnp(pyxel.KEY_A):
             self.jouer = False
             

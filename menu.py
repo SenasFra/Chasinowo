@@ -1,4 +1,5 @@
 import pyxel
+import pickle
 import time
 import os
 
@@ -7,6 +8,7 @@ class Menu:
         self.new = True
         self.continu = False
         self.exit = False
+        self.charger = False
         self.jouer = True
     def update(self):
         if self.continu and pyxel.btnp(pyxel.KEY_S):
@@ -24,6 +26,12 @@ class Menu:
         if pyxel.btn(pyxel.KEY_E) or pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
             if self.new:
                 self.jouer = False
+            if self.continu:
+                #vérification que la sauvegarde est valable
+                with open('save/data.pickle', 'rb') as f:
+                    if pickle.load(f)[0] >= 100:
+                        self.charger = True
+                        self.jouer = False
             if self.exit:
                 pyxel.quit()
                 

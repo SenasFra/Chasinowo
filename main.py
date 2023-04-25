@@ -1,6 +1,7 @@
 import pyxel
 import pygame
 import random
+import pickle
 import os
 from assets.font.PyxelUnicode import PyxelUnicode
 import salles
@@ -12,8 +13,15 @@ from games.blackjack import Blackjack
 from menu import Menu
 from chatbox import Chatbox
 import time
+from assets.character.main.gauche import Gauche
+
+from save import save
+import atexit
 
 Menu_interface = Menu()
+
+def cleanup():
+    print("miaouauaou")
 
 class casino:
     def __init__(self):
@@ -38,7 +46,11 @@ class casino:
 
         self.porte_triggered = None
         
+        #sauvegarde si on ferme le jeu
+        
+        
         pyxel.run(self.update, self.draw)
+        atexit.register(self.cleanup)
         
         
     def interface(self):
@@ -63,7 +75,7 @@ class casino:
         #si on a passé le menu (et éventuellement le scénario)
         if self.jeux is None:
             #changement de salle lorsque l'on est proche d'une porte          
-            if pyxel.btnp(pyxel.KEY_E) and not self.chatbox_activated:
+            if pyxel.btnp(pyxel.KEY_E) and not self.chatbox_activated and not self.CHAT.assis:
                 self.porte_triggered = self.current_room.take_door(self.CHAT.x, self.CHAT.y)
                 
                 #active la chatbox si le joueur n'a pas débloqué la porte
@@ -72,9 +84,8 @@ class casino:
                         door_chatbox = Chatbox(None, self.current_room, {}, None, f"Pour rentrer, il vous faut: acheter la porte      ({self.add_spaces_between_number(self.porte_triggered.price)}$) et avoir {self.add_spaces_between_number(self.porte_triggered.money_condition)}$.", "Acheter", "Annuler")
                     else:
                         door_chatbox = Chatbox(None, self.current_room, {}, None, f"Pour rentrer, il vous faut: acheter la porte      ({self.add_spaces_between_number(self.porte_triggered.price)}$) et avoir {self.add_spaces_between_number(self.porte_triggered.money_condition)}$.", "Annuler")
+                    
                     self.active_chatbox(door_chatbox)
-                    
-                    
                 #vérifie si on peut entrer
                 if self.porte_triggered is not None:
                     room = self.porte_triggered.enter(self.CHAT)
@@ -86,15 +97,34 @@ class casino:
                         #replace le chat
                         new_coord = self.CHAT.replace_cat(self.current_room, previous_door_name)
                         self.CHAT.x, self.CHAT.y = new_coord[0], new_coord[1]
+                        save(self.CHAT, self.current_room)
                         
+            
             if pyxel.btnp(pyxel.KEY_E) and not self.chatbox_activated:
                 #active une chatbox qui n'a pas de rapport avec une porte
                 for chatbox in self.current_room.chatboxes:
-                    if chatbox.range_x[0] - 5 <= self.CHAT.x <= chatbox.range_x[1] + 5 and chatbox.range_y[0] - 5 <= self.CHAT.y <= chatbox.range_y[1] + 5 and chatbox.nom_chat is not None:
+                    if chatbox.range_x[0] - 5 <= self.CHAT.x <= chatbox.range_x[1] + 5 and chatbox.range_y[0] - 5 <= self.CHAT.y <= chatbox.range_y[1] + 5: #and isinstance(chatbox.nom_chat, chatbox)
+                        print("miaou mioua ", self.current_room.current_chatbox)
                         chatbox.temp = time.time()
                         self.active_chatbox(chatbox)
-            
                         
+            #permet de sortir du siège           
+            if (pyxel.btnp(pyxel.KEY_Z) or pyxel.btnp(pyxel.KEY_Q) or pyxel.btnp(pyxel.KEY_S) or pyxel.btnp(pyxel.KEY_D)) and self.CHAT.assis:
+                self.CHAT.x, self.CHAT.y = self.CHAT.x-50, self.CHAT.y+40
+                self.CHAT.base = Gauche()
+                self.CHAT.assis = False
+                        
+                
+                            
+            #permet de s'asseoir sur un siège
+            #s'assoir sur un siege
+            if pyxel.btnp(pyxel.KEY_E):
+                if not (self.current_room.siege == []):
+                    for elt in self.current_room.siege:
+                        if elt[0] < self.CHAT.x < elt[2] and elt[1] < self.CHAT.y < elt[3]:
+                            self.CHAT.x, self.CHAT.y = self.current_room.centre_siege(elt)
+                            self.CHAT.assis = True
+                            
                 #lancement d'un jeu
                 if len(self.current_room.jeux) != 0:
                     for jeux in self.current_room.jeux:
@@ -108,16 +138,33 @@ class casino:
             
             if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
                 print(pyxel.mouse_x, pyxel.mouse_y)
+                if 1210 <= pyxel.mouse_x <= 1340 and 80 <= pyxel.mouse_y <= 135:
+                    save(self.CHAT, self.current_room) 
             
             #le chat peut bouger s'il n'est pas en train de discuter ou qu'il n'est pas assis                    
             if not self.chatbox_activated:       
                 self.CHAT.mouv(self.current_room.hitbox)
                 
-        #affiche l'interface du jeu        
         else:
+            #affiche l'interface du jeu        
             self.jeux.update()
             if not self.jeux.jouer:
+                if isinstance(self.jeux, Menu):
+                    #récupere la sauvegade
+                    if self.jeux.charger:
+                        with open('save/data.pickle', 'rb') as f:
+                            data = pickle.load(f)
+                            self.CHAT.money = data[0]
+                            self.CHAT.doors_unlocked = data[1]
+                            self.CHAT.x = data[2][0]
+                            self.CHAT.y = data[2][1]
+                            self.current_room = data[3]
+                            
+                #sauvegarde l'argent gagner
+                save(self.CHAT, self.current_room)
                 self.jeux = None
+                
+        
 
     def draw(self):
         #self.musique()
@@ -130,9 +177,10 @@ class casino:
             #il y une chatbox de lancé donc on la dessine
             if self.current_room.current_chatbox is not None and self.current_room.current_chatbox.chatbox_activated:
                 #si la chatbox est une porte
-                if self.current_room.current_chatbox.reponse1 == "Acheter" and not (self.porte_triggered.name in self.CHAT.doors_unlocked):
-                    self.current_room.current_chatbox.dess(self.porte_triggered, self.CHAT)
-                else:   
+                if self.current_room.current_chatbox.reponse1 == "Acheter" and not (self.porte_triggered.name in self.CHAT.doors_unlocked)  and self.porte_triggered != None:
+                    self.current_room.current_chatbox.dess(self.porte_triggered, self.CHAT, self.current_room)
+                else: 
+                    print("miaou")  
                     self.current_room.current_chatbox.dess()
                 #on a quitté la chatbox
                 if not self.current_room.current_chatbox.chatbox_activated:
@@ -149,6 +197,9 @@ class casino:
                 self.chatbox_activated = False
         else:
             self.jeux.draw()
+            
+        
+        
 
     def musique(self):
         if not pygame.mixer.music.get_busy():
@@ -188,5 +239,9 @@ class casino:
         
         return result
     
+    def cleanup(self):
+        if not isinstance(self.jeux, Menu):
+            print("miouauouoauoauoa")
+            save(self.CHAT)
     
 casino()

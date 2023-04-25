@@ -3,12 +3,13 @@ from assets.character.main.haut import Haut
 from assets.character.main.droite import Droite
 from assets.character.main.bas import Bas
 from assets.character.main.gauche import Gauche
+from assets.character.main.sitting import Sitting
 
 class CHAT:
     def __init__(self ,x ,y ):
-        self.money = 2000000
+        self.money = 10000000
         self.doors_unlocked = []
-        
+        self.assis = False
         self.x = x
         self.y = y
         self.direction = "haut"
@@ -18,30 +19,32 @@ class CHAT:
         self.base.dess(self.x, self.y)
 
     def mouv(self, lst):
-        v = 5
-        if pyxel.btn(pyxel.KEY_CTRL):
-            v = 1
-            
-        if pyxel.btn(pyxel.KEY_Z):
-            #self.direction = "haut"
-            self.base = Haut()
-            if self._peut_bouger(lst, "haut"):
-                self.y -= v
-        if pyxel.btn(pyxel.KEY_S):
-            #self.direction = "bas"
-            self.base = Bas()
-            if self._peut_bouger(lst, "bas"):
-                self.y += v
-        if pyxel.btn(pyxel.KEY_D):
-            #self.direction = "droite"
-            self.base = Droite()
-            if self._peut_bouger(lst, "droite"):
-                self.x += v
-        if pyxel.btn(pyxel.KEY_Q):
-            #self.direction = "gauche"
-            self.base = Gauche()
-            if self._peut_bouger(lst, "gauche"):
-                self.x -= v
+        if self.assis == False:
+            v = 5
+            if pyxel.btn(pyxel.KEY_CTRL):
+                v = 1
+            if pyxel.btn(pyxel.KEY_Z):
+                #self.direction = "haut"
+                self.base = Haut()
+                if self._peut_bouger(lst, "haut"):
+                    self.y -= v
+            if pyxel.btn(pyxel.KEY_S):
+                #self.direction = "bas"
+                self.base = Bas()
+                if self._peut_bouger(lst, "bas"):
+                    self.y += v
+            if pyxel.btn(pyxel.KEY_D):
+                #self.direction = "droite"
+                self.base = Droite()
+                if self._peut_bouger(lst, "droite"):
+                    self.x += v
+            if pyxel.btn(pyxel.KEY_Q):
+                #self.direction = "gauche"
+                self.base = Gauche()
+                if self._peut_bouger(lst, "gauche"):
+                    self.x -= v
+        else:
+            self.base = Sitting()
     
     
     def _peut_bouger(self, lst, direction):
@@ -75,10 +78,9 @@ class CHAT:
         reversed_name = ""
         for l in reversed(previous_door_name):
             reversed_name += l
-        
-        #repositionne le chat au milieu de la largeur de la porte qu'il a pris    
+            
         for porte in room.portes:
-            if porte.name in reversed_name:
+            if porte.name == reversed_name:
                 if porte.is_in_front:
                     x = porte.coord['x'] + porte.size // 2
                     y = porte.coord['y']
@@ -87,5 +89,3 @@ class CHAT:
                     y = porte.coord['y'] + porte.size // 2
                 return x, y
                     
-    def highlight_E_button(self):
-         pass

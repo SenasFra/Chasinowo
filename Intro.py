@@ -16,7 +16,7 @@ class Intro():
     def dess(self):
         for x in range(6):
             for y in range(4):
-                pyxel.image(1).load(0,0,"../assets/intro/"+ str(x) + str(y)+".png")
+                pyxel.image(1).load(0,0,"assets/intro/"+ str(x) + str(y)+".png")
                 pyxel.blt(x*225,y*170,1,0,0,225,170)
         Haut().dess(self.cat_pos_x,self.cat_pos_y,self.up)
         Yakuchat().dess(615,130)

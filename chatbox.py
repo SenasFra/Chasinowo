@@ -2,6 +2,8 @@ import pyxel
 import time
 from assets.font.PyxelUnicode import PyxelUnicode
 from timeout import wait
+import pickle
+from save import save
 
 class Chatbox:
     def __init__(self, image, salle, next_chatboxes, nom, question, rep1 = None,rep2 = None,rep3 = None):
@@ -27,7 +29,7 @@ class Chatbox:
         
         self.chatbox_activated = True
 
-    def dess(self, porte = None, CHAT = None):
+    def dess(self, porte = None, CHAT = None, current_room = None):
         if self.chatbox_activated:
             pyxel.rect(0,500,1350,430,0) #le cadre de toute la chatbox
             pyxel.rect(0, 500, 1350, 5, 7) #la bande blanche du haut
@@ -35,7 +37,7 @@ class Chatbox:
             #si c'est la chatbox d'un chat
             if self.image_chat is not None and self.nom_chat is not None:
                 #image du chat
-                self.image_chat.dess(0, 376)
+                self.image_chat.dess(0, 388)
                 self.font.text(12, 520, self.nom_chat)
                 #encadré du nom
                 pyxel.rect(20 * len(self.nom_chat),  505,  5,  50,  7)
@@ -46,7 +48,7 @@ class Chatbox:
                 pyxel.rect(800, 504, 5, 180, 7)
             
             #affichage du texte côté question (celui à gauche)
-            if self.reponse1 == None and self.reponse2== None and self.reponse3 == None:
+            if self.reponse1 == None and self.reponse2 == None and self.reponse3 == None:
                 #il n'y a pas de réponse, le texte prend toute la longueur de la chat box
                 if len(self.question) <= 90:
                     self.font.text(20, 600, self.question)
@@ -92,8 +94,8 @@ class Chatbox:
                 self.selectAnswer(pyxel.mouse_x, pyxel.mouse_y)
                 
             
-            if porte is not None and CHAT is not None:
-                self.next_chatbox(pyxel.mouse_x, pyxel.mouse_y, porte, CHAT)
+            if porte is not None and CHAT is not None and current_room is not None:
+                self.next_chatbox(pyxel.mouse_x, pyxel.mouse_y, porte, CHAT, current_room)
             else:
                 self.next_chatbox(pyxel.mouse_x, pyxel.mouse_y)
             
@@ -163,7 +165,7 @@ class Chatbox:
             else:
                 self.selected = 2
                     
-    def next_chatbox(self, x, y, porte = None, CHAT = None):
+    def next_chatbox(self, x, y, porte = None, CHAT = None, current_room = None):
         
         can_change_chatbox_by_clicking = False
         #change la variable qui permet mettre fin au dialogue actuel
@@ -185,19 +187,25 @@ class Chatbox:
                 self.next_chatboxes[self.selected].chatbox_activated = True
                 self.salle.current_chatbox = self.next_chatboxes[self.selected]
                 
-            if porte is not None and CHAT is not None:  
-                self.door_bought(porte, CHAT)
+            if porte is not None and CHAT is not None and current_room is not None:  
+                self.door_bought(porte, CHAT, current_room)
                 
             self.chatbox_activated = False
             
-    def door_bought(self, porte, CHAT):
+    def door_bought(self, porte, CHAT, current_room):
         #achète la porte
         if self.selected == 1 and self.reponse1 == "Acheter":
             if CHAT.money >= porte.price and CHAT.money >= porte.money_condition:
                 print("Acheter ça marche")
                 CHAT.money -= porte.price
+                
+                print(porte.name, self.door_name_reversed(porte.name))
+                
                 CHAT.doors_unlocked.append(porte.name)
                 CHAT.doors_unlocked.append(self.door_name_reversed(porte.name))
+                #sauvegarde l'argent et la porte débloquée
+                print(CHAT.doors_unlocked)
+                save(CHAT, current_room)
                 return True
             
     def door_name_reversed(self, door_name):

@@ -10,9 +10,17 @@ from assets.character.pnj.greycat_backward import Greycat_backward
 from assets.others.plot import plot
 from assets.others.chatrpentier import chatrpentier
 from assets.tokens.tokens_opti.token_50 import Token_50
+from assets.character.pnj.lunettes import Lunettes
+from assets.character.pnj.orange_cat import Orange_Cat
+from assets.character.pnj.blue_cat import Blue_Cat
+from assets.character.pnj.yellow_cat import Yellow_Cat
+from assets.character.pnj.mainly_white_cat import Mainly_White_Cat
+from assets.character.pnj.colorful_cat import Colorful_Cat
+from assets.character.pnj.chattarde import Chattarde
+from assets.character.pnj.cheisenberg import Cheisenberg
 
 class Salle:
-    def __init__(self, coords_hitbox: list, img_name: object, jeux: object):
+    def __init__(self, coords_hitbox: list, img_name: object, jeux: object, sieges: list):
         self.hitbox = coords_hitbox
         self.portes = []
         self.img_name = img_name
@@ -21,7 +29,7 @@ class Salle:
         self.plots = []
         self.chatrpentiers = []
         self.chatboxes = []
-        
+        self.siege = sieges
         self.current_chatbox = None
         
     def dess(self):
@@ -49,6 +57,9 @@ class Salle:
             else:
                 if porte.coord['x'] <= x <= porte.coord['x'] + porte.size and porte.coord['y'] - 5 <= y <= porte.coord['y'] + 5:
                     return porte
+                
+    def centre_siege(self, elt):
+        return (elt[0] + elt[2]) // 2, (elt[1] + elt[3]) // 2
 
     def Chantier(self):
         #génère les plots
@@ -62,30 +73,14 @@ class Salle:
             for chatrpentier in self.chatrpentiers:
                 chatrpentier["chatrpentier"].dess(chatrpentier["coord"][0], chatrpentier["coord"][1])
         
-def add_spaces_between_number(money):
-    money = str(money)
-    reversed_result = ""
-    #trouve où il faut mettre les espace
-    for i in range(len(str(money)) - 1, -1, -1):
-        reversed_result += money[i]
-        if (i - 1) % 3 == 0:
-            reversed_result += " "
-    #remet les chiffres dans le bon ordre
-    result = ""
-    for l in reversed(reversed_result):
-        result += l
-    
-    return result
-        
 #création des salles              
-Debut = Salle([[260,115,1040,505], [730, 460, 800, 510]], "debut", [])
-Un = Salle([[430, 145, 855, 455], [570, 220, 730, 355], [615, 180, 690, 380]], "1", [Des])
-Deux = Salle( [[385, 170, 925, 470],[330, 205, 425, 415], [500, 201, 588, 425],[550, 225, 760, 425],[720, 201, 800, 420], [880, 140, 975, 220],  [800, 270, 850, 340]], "2", [Machine_a_Sous])
-Trois = Salle([[400, 115, 925, 500], [410, 125, 605, 240],[700, 115, 895, 240], [710, 370, 905, 465], [420, 370, 615, 465], [465, 450, 550, 600], [755, 455, 845, 550], [465, 50, 560, 200], [755, 50, 845, 200], [628, 465, 700, 800]], "3", [Blackjack]) # [628, 465, 700, 800] = Plot
-Quatre = Salle([[380, 65, 920, 550], [455, 215, 650, 405], [740, 60, 850, 440], [900, 60, 925, 345], [415, 275, 455, 340], [645, 240, 675, 345],[700, 0, 740, 210], [700, 220, 785, 300], [700, 295, 740, 350]], "4", [Roulette])
-Cinq = Salle([[520, 90, 775, 545], [590, 230, 695, 370], [620, 210, 670, 390], [697, 425, 800, 475], [520, 385, 775, 440]], "5", [])   #[520, 385, 775, 440] = rangée de plots /// [697, 425, 800, 475] = Chat
-Fin = Salle( [[260, 120, 1035, 480], [400, 240, 590, 390], [340, 255, 645, 355], [460, 325, 540, 410], [445, 170, 540, 330], [860, 95, 1075, 215],  [855, 175,940, 270], [895, 175, 1055, 305], [940, 305, 1015, 325]],  "fin", []) 
-
+Debut = Salle([[260,115,1040,505], [730, 460, 800, 510]], "debut", [], [])
+Un = Salle([[430, 145, 855, 455], [570, 220, 730, 355], [615, 180, 690, 380]], "1", [Des], [])
+Deux = Salle( [[385, 170, 925, 470],[330, 205, 425, 415], [500, 201, 588, 425],[550, 225, 760, 425],[720, 201, 800, 420], [880, 140, 975, 220],  [800, 270, 850, 340]], "2", [Machine_a_Sous], [])
+Trois = Salle([[400, 115, 925, 500], [410, 125, 605, 240],[700, 115, 895, 240], [710, 370, 905, 465], [420, 370, 615, 465], [465, 450, 550, 600], [755, 455, 845, 550], [465, 50, 560, 200], [755, 50, 845, 200], [628, 465, 700, 800]], "3", [Blackjack], []) # [628, 465, 700, 800] = Plot
+Quatre = Salle([[380, 65, 920, 550], [455, 215, 650, 405], [740, 60, 850, 440], [900, 60, 925, 345], [415, 275, 455, 340], [645, 240, 675, 345],[700, 0, 740, 210], [700, 220, 785, 300], [700, 295, 740, 350]], "4", [Roulette], [[690, 180, 785, 260]])
+Cinq = Salle([[520, 90, 775, 545], [590, 230, 695, 370], [620, 210, 670, 390], [697, 425, 800, 475], [520, 385, 775, 440]], "5", [], [])   #[520, 385, 775, 440] = rangée de plots /// [697, 425, 800, 475] = Chat
+Fin = Salle( [[260, 120, 1035, 480], [400, 240, 590, 390], [340, 255, 645, 355], [460, 325, 540, 410], [445, 170, 540, 330], [860, 95, 1075, 215],  [855, 175,940, 270], [895, 175, 1055, 305], [940, 305, 1015, 325]],  "fin", [], [[450, 280, 550, 420], [920, 180, 1040, 350]])
 
 """salle debut"""
 #les portes
@@ -107,13 +102,6 @@ chatbox_vip.range_x = [715, 815]
 chatbox_vip.range_y = [455, 505]
 Debut.chatboxes.append(chatbox_vip)
 
-#chatbox_porte_D_1 = Chatbox()
-# chatbox_D_F = Chatbox(None, Debut, {}, None, f"Pour rentrer, il vous faut: acheter la porte      ({add_spaces_between_number(Porte_D_F.price)}$) et avoir {add_spaces_between_number(Porte_D_F.money_condition)}$.", "Acheter", "Laisser")
-# chatbox_D_F.range_x = [615, 675]
-# chatbox_D_F.range_y = [500, 510]
-# Porte_D_F.chatbox = chatbox_D_F
-#Debut.chatboxes.append(chatbox_D_F)
-
 """salle 1"""
 #les portes
 Porte_1_D = Porte("1-D", {'x': 855, 'y': 365}, 0, 0, Debut, False, 45)
@@ -122,7 +110,7 @@ Un.portes.append(Porte_1_D)
 Un.portes.append(Porte_1_5)
 
 #ajout d'un chat
-Un.cats.append({"coord": [656, 215], "cat": Greycat()})
+Un.cats.append({"coord": [656, 215], "cat": Lunettes()})
 
 #ajout de dialogue
 chatbox_veut_savoir = Chatbox(Token_50(), Un, {}, "Pawtrick", "C'est tres simple ! Tu choisis un nombre ou une   fourchette de nombres puis tu appuies sur ESPACE !", "Merci !")
@@ -142,7 +130,7 @@ Deux.portes.append(Porte_2_4)
 
 #ajout de chats
 Deux.cats.append({"coord": [920, 190], "cat": Greycat()})
-Deux.cats.append({"coord": [820, 315], "cat": Greycat()})
+Deux.cats.append({"coord": [820, 315], "cat": Orange_Cat()})
 
 #ajout de dialogues
 #mas = machine a sous
@@ -180,10 +168,10 @@ Porte_4_2 = Porte ("4-2", {'x': 380, 'y': 305}, 0, 0, Deux, False, 30)
 Quatre.portes.append(Porte_4_2)
 
 #ajout de chats
-Quatre.cats.append({"coord": [741, 85], "cat": Greycat()})
-Quatre.cats.append({"coord": [741, 155], "cat": Greycat()})
-Quatre.cats.append({"coord": [742, 285], "cat": Greycat()})
-Quatre.cats.append({"coord": [651, 280], "cat": Greycat()})
+Quatre.cats.append({"coord": [741, 85], "cat": Yellow_Cat()})
+Quatre.cats.append({"coord": [741, 155], "cat": Blue_Cat()})
+Quatre.cats.append({"coord": [742, 285], "cat": Mainly_White_Cat()})
+Quatre.cats.append({"coord": [651, 280], "cat": Colorful_Cat()})
 
 #ajout des dialogues
 chatbox_lait1 = Chatbox(Token_50(), Quatre, {}, "Ronron", "Wouahh comment il est trop bon ce lait au raisin !", "Mhm chat donne envie !")

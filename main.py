@@ -32,7 +32,7 @@ class casino:
         self.CHAT = CHAT.CHAT(650,425)
         self.previous_room = None
         self.current_room = salles.Debut
-        self.jeux = Menu()
+        self.jeux = None
         
         #variables pour activer et désactiver les dialogues
         self.chatbox_activated = False
@@ -50,8 +50,12 @@ class casino:
         # affiche l'interface  
         #contenant l'argent, le bouton sauvegarder
         pyxel.image(0).load(0, 0, "assets/UI/UI_1.png")
+        
         pyxel.blt(1205, 20, 0, 0, 0, 138, 157)
-        self.font.text(1226, 50, str(self.CHAT.money))
+        if len(str(self.CHAT.money)) >= 6:
+            self.font.text(1275 - 8 * (len(str(self.CHAT.money)) - 1), 50, str(self.CHAT.money))
+        else:    
+            self.font.text(1275 - 10 * (len(str(self.CHAT.money)) - 1), 50, str(self.CHAT.money))
         #contenant l'inventaire, et le bouton E
         pyxel.image(0).load(0, 0, "assets/UI/UI_2.png")
         pyxel.blt(1205, 400, 0, 0, 0, 138, 237)
@@ -225,19 +229,24 @@ class casino:
                     pass
                 
     def add_spaces_between_number(self, money):
-        money = str(money)
-        reversed_result = ""
-        #trouve où il faut mettre les espace
-        for i in range(len(str(money)) - 1, -1, -1):
-            reversed_result += money[i]
-            if (i - 1) % 3 == 0:
-                reversed_result += " "
-        #remet les chiffres dans le bon ordre
+        number_str = str(money)  # convert number to string
+        digits = len(number_str)
+        if digits <= 3:
+            return number_str
+        elif digits % 3 == 0:
+            separator = " "
+            groups = digits // 3
+        else:
+            separator = " "
+            groups = digits // 3 + 1
         result = ""
-        for l in reversed(reversed_result):
-            result += l
-        
-        return result
+        for i in range(groups):
+            start = digits - (i + 1) * 3
+            end = digits - i * 3
+            if start < 0:
+                start = 0
+            result = separator + number_str[start:end] + result
+        return result.strip()
     
     def cleanup(self):
         if not isinstance(self.jeux, Menu):

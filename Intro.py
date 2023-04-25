@@ -47,7 +47,7 @@ class Intro():
             self.up = False
 
             #La il faudra inserer la chatbox
-            if pyxel.btnp(pyxel.KEY_SPACE) and not self.Decor.current_chatbox.chatbox_activated: #La on met un autre booléen qui signifie la fin de la chatbox
+            if pyxel.btnp(pyxel.KEY_E) and not self.Decor.current_chatbox.chatbox_activated: #La on met un autre booléen qui signifie la fin de la chatbox
                 self.cat_pos_y -= 5
         if self.cat_pos_y <= 150:
             

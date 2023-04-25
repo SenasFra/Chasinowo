@@ -82,7 +82,42 @@ import pyxel
 # # Wait for the timeout thread to finish
 # timeout_thread.join()
 
-temp = time.time()
+def add_spaces_between_number(money):
+        money = str(money)
+        reversed_result = ""
+        #trouve où il faut mettre les espace
+        for i in range(len(str(money)) - 1, -1, -1):
+            print(i)
+            reversed_result += money[i]
+            if (i+1) % 3 == 0:
+                reversed_result += " "
+        #remet les chiffres dans le bon ordre
+        result = ""
+        for l in reversed(reversed_result):
+            result += l
         
-while time.time() - temp < 1:
-    print(time.time() - temp)
+        return result
+    
+print(add_spaces_between_number("120500"))
+
+def separate_digits(number):
+    number_str = str(number)  # convert number to string
+    digits = len(number_str)
+    if digits <= 3:
+        return number_str
+    elif digits % 3 == 0:
+        separator = " "
+        groups = digits // 3
+    else:
+        separator = " "
+        groups = digits // 3 + 1
+    result = ""
+    for i in range(groups):
+        start = digits - (i + 1) * 3
+        end = digits - i * 3
+        if start < 0:
+            start = 0
+        result = separator + number_str[start:end] + result
+    return result.strip()
+
+print(separate_digits(112135))

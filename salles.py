@@ -21,14 +21,14 @@ from assets.character.pnj.colorful_cat import Colorful_Cat
 from assets.character.pnj.chattarde import Chattarde
 from assets.character.pnj.cheisenberg import Cheisenberg
 
-from assets.character.pnj.pnjheads.lunettes_head import Lunettes
-from assets.character.pnj.pnjheads.orange_head import Orange_Cat
-from assets.character.pnj.pnjheads.blue_head import Blue_Cat
-from assets.character.pnj.pnjheads.yellow_head import Yellow_Cat
-from assets.character.pnj.pnjheads.mainly_white_head import Mainly_White_Cat
-from assets.character.pnj.pnjheads.colorful_head import Colorful_Cat
-from assets.character.pnj.pnjheads.chattarde_head import Chattarde
-#from assets.character.pnj.pnjheads.cheisenberg_head import Cheisenberg
+from assets.character.pnj.pnjheads.grey_head import Grey_Head
+from assets.character.pnj.pnjheads.lunettes_head import Lunettes_Head
+from assets.character.pnj.pnjheads.orange_head import Orange_Head
+from assets.character.pnj.pnjheads.blue_head import Blue_Head
+from assets.character.pnj.pnjheads.yellow_head import Yellow_Head
+from assets.character.pnj.pnjheads.mainly_white_head import Mainly_White_Head
+from assets.character.pnj.pnjheads.colorful_head import Colorful_Head
+from assets.character.pnj.pnjheads.chattarde_head import Chattarde_Head
 
 class Salle:
     def __init__(self, coords_hitbox: list, img_name: object, jeux: object, sieges: list):
@@ -87,7 +87,7 @@ class Salle:
 #création des salles              
 Debut = Salle([[260,115,1040,505], [730, 460, 800, 510]], "debut", [], [])
 Un = Salle([[430, 145, 855, 455], [570, 220, 730, 355], [615, 180, 690, 380]], "1", [Des], [])
-Deux = Salle( [[385, 170, 925, 470],[330, 205, 425, 415], [500, 201, 588, 425],[550, 225, 760, 425],[720, 201, 800, 420], [880, 140, 975, 220],  [800, 270, 850, 340]], "2", [Machine_a_Sous], [])
+Deux = Salle( [[385, 170, 925, 470], [330, 205, 425, 415], [500, 201, 588, 425],[550, 225, 760, 425],[720, 201, 800, 420], [880, 140, 975, 220],  [800, 270, 850, 340]], "2", [Machine_a_Sous], [])
 Trois = Salle([[400, 115, 925, 500], [410, 125, 605, 240],[700, 115, 895, 240], [710, 370, 905, 465], [420, 370, 615, 465], [465, 450, 550, 600], [755, 455, 845, 550], [465, 50, 560, 200], [755, 50, 845, 200], [628, 465, 700, 800]], "3", [Blackjack], []) # [628, 465, 700, 800] = Plot
 Quatre = Salle([[380, 65, 920, 550], [455, 215, 650, 405], [740, 60, 850, 440], [900, 60, 925, 345], [415, 275, 455, 340], [645, 240, 675, 345],[700, 0, 740, 210], [700, 220, 785, 300], [700, 295, 740, 350]], "4", [Roulette], [[690, 180, 785, 260]])
 Cinq = Salle([[520, 90, 775, 545], [590, 230, 695, 370], [620, 210, 670, 390], [697, 425, 800, 475], [520, 385, 775, 440]], "5", [], [])   #[520, 385, 775, 440] = rangée de plots /// [697, 425, 800, 475] = Chat
@@ -108,11 +108,10 @@ Debut.portes.append(Porte_D_3)
 Debut.cats.append({"coord": [760, 500], "cat": Greycat_backward()})
 
 #ajout de dialogue
-chatbox_vip = Chatbox(Token_50(), Debut, {}, "Persan", "La porte derriere moi ? C'est pour les plus        riches, les VIP comme moi, allez va-t'en le      pauvre", "s'cuse moi Louis XIV..")
+chatbox_vip = Chatbox(Grey_Head(), Debut, {}, "Persan", "La porte derriere moi ? C'est pour les plus        riches, les VIP comme moi, allez va-t'en le      pauvre", "s'cuse moi Louis XIV..")
 chatbox_vip.range_x = [715, 815]
 chatbox_vip.range_y = [455, 505]
 Debut.chatboxes.append(chatbox_vip)
-
 """salle 1"""
 #les portes
 Porte_1_D = Porte("1-D", {'x': 855, 'y': 365}, 0, 0, Debut, False, 45)
@@ -124,8 +123,8 @@ Un.portes.append(Porte_1_5)
 Un.cats.append({"coord": [656, 215], "cat": Lunettes()})
 
 #ajout de dialogue
-chatbox_veut_savoir = Chatbox(Token_50(), Un, {}, "Pawtrick", "C'est tres simple ! Tu choisis un nombre ou une   fourchette de nombres puis tu appuies sur ESPACE !", "Merci !")
-chatbox_des = Chatbox(Token_50(), Un, {1: chatbox_veut_savoir}, "Pawtrick", "Salut ! Tu veux savoir comment jouer ?", "Avec plaisir !", "Non merci, je connais deja les regles")
+chatbox_veut_savoir = Chatbox(Lunettes_Head(), Un, {}, "Pawtrick", "C'est tres simple ! Tu choisis un nombre ou une   fourchette de nombres puis tu appuies sur ESPACE !", "Merci !")
+chatbox_des = Chatbox(Lunettes_Head(), Un, {1: chatbox_veut_savoir}, "Pawtrick", "Salut ! Tu veux savoir comment jouer ?", "Avec plaisir !", "Non merci, je connais deja les regles")
 
 chatbox_des.range_x = [595, 715]
 chatbox_des.range_y = [195, 260]
@@ -145,8 +144,8 @@ Deux.cats.append({"coord": [820, 315], "cat": Orange_Cat()})
 
 #ajout de dialogues
 #mas = machine a sous
-chatbox_veut_savoir_mas = Chatbox(Token_50(), Deux, {}, "Whiskette", "Tu vas voir c'est pas dur, il faut glisser les    jetons dans la p'tite encoche puis il te suffit   d'appuyer sur le levier rouge.", "Je vois, merci.")
-chatbox_mas = Chatbox(Token_50(), Deux, {1: chatbox_veut_savoir_mas}, "Whiskette", "J'adore ce jeu.. oh salut toi ! Tu veux savoir    comment y jouer ?", "Oui s'il te plait !", "Je sais deja comment y jouer.")
+chatbox_veut_savoir_mas = Chatbox(Orange_Head(), Deux, {}, "Whiskette", "Tu vas voir c'est pas dur, il faut glisser les    jetons dans la p'tite encoche puis il te suffit   d'appuyer sur le levier rouge.", "Je vois, merci.")
+chatbox_mas = Chatbox(Orange_Head(), Deux, {1: chatbox_veut_savoir_mas}, "Whiskette", "J'adore ce jeu.. oh salut toi ! Tu veux savoir    comment y jouer ?", "Oui s'il te plait !", "Je sais deja comment y jouer.")
 
 chatbox_mas.range_x = [780, 865]
 chatbox_mas.range_y = [260, 370]
@@ -154,14 +153,15 @@ chatbox_mas.range_y = [260, 370]
 Deux.chatboxes.append(chatbox_mas)
 
 Deux.cats.append({"coord": [920, 190], "cat": Greycat()})
-chatbox_miaou = Chatbox(Token_50(), Deux, {}, "Miaou", "MIAOUUOUOUO C FINI UWU UWU UWU UWU MIOAU MIOAU MIOUA MIOUA MOUA MIOU MIOAM IO MIAOU MUAO MOAU")
-chatbox_miou = Chatbox(Token_50(), Deux, {1: chatbox_miaou}, "miaou", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+#test des 1eres chatbox
+# chatbox_miaou = Chatbox(Grey_Head(), Deux, {}, "Miaou", "MIAOUUOUOUO C FINI UWU UWU UWU UWU MIOAU MIOAU MIOUA MIOUA MOUA MIOU MIOAM IO MIAOU MUAO MOAU")
+# chatbox_miou = Chatbox(Grey_Head(), Deux, {1: chatbox_miaou}, "miaou", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 
-chatbox_demande_caresse = Chatbox(Token_50(), Deux, {2: chatbox_miou, 3: chatbox_miaou}, "MIAOU", "Es-tu un chat ? Je pense que non ? ... Quoi !? tu me dis que tu es un chat ? Mais quel idiotie !!!", "Mais ! Je suis un chat !!!", "Haha ! Tu m'as bien eu!", "MIAAAAAAAAAAAAAAAAAAAOUUUUUUUUUUUUUUUU")
-chatbox_demande_caresse.range_x = [875, 925]
-chatbox_demande_caresse.range_y = [190,240]
+# chatbox_demande_caresse = Chatbox(Grey_Head(), Deux, {2: chatbox_miou, 3: chatbox_miaou}, "MIAOU", "Es-tu un chat ? Je pense que non ? ... Quoi !? tu me dis que tu es un chat ? Mais quel idiotie !!!", "Mais ! Je suis un chat !!!", "Haha ! Tu m'as bien eu!", "MIAAAAAAAAAAAAAAAAAAAOUUUUUUUUUUUUUUUU")
+# chatbox_demande_caresse.range_x = [875, 925]
+# chatbox_demande_caresse.range_y = [190,240]
 
-Deux.chatboxes.append(chatbox_demande_caresse)
+# Deux.chatboxes.append(chatbox_demande_caresse)
 
 """salle 3"""
 #ajout d'un porte
@@ -185,26 +185,26 @@ Quatre.cats.append({"coord": [742, 285], "cat": Mainly_White_Cat()})
 Quatre.cats.append({"coord": [651, 280], "cat": Colorful_Cat()})
 
 #ajout des dialogues
-chatbox_lait1 = Chatbox(Token_50(), Quatre, {}, "Ronron", "Wouahh comment il est trop bon ce lait au raisin !", "Mhm chat donne envie !")
+chatbox_lait1 = Chatbox(Yellow_Head(), Quatre, {}, "Ronron", "Wouahh comment il est trop bon ce lait au raisin !", "Mhm chat donne envie !")
 
 chatbox_lait1.range_x = [670, 695]
 chatbox_lait1.range_y = [65, 110]
 
-chatbox_lait2 = Chatbox(Token_50(), Quatre, {}, "Patoune", "J'vois tout flou, j'ai pris trrrrop d'laaaait  au rhum ! *hoquete*", "Oula..")
+chatbox_lait2 = Chatbox(Blue_Head(), Quatre, {}, "Patoune", "J'vois tout flou, j'ai pris trrrrop d'laaaait  au rhum ! *hoquete*", "Oula..")
 
 chatbox_lait2.range_x = [670, 695]
 chatbox_lait2.range_y = [145, 200]
 
-chatbox_lait3_1 = Chatbox(Token_50(), Quatre, {}, "Purrcival", "Un... un chatellite ! Hahaha ! Comme un satellite, mais avec chat dedans ! *glousse* T'as compris,  hein ? Hahaha ! C'est trop... trop drole ! Non ?", "Ahah, ouais c'est ca...")
-chatbox_lait3_2 = Chatbox(Token_50(), Quatre, {}, "Purrcival", "*hic* Dommage *vous regarde d'un air aneanti*")
-chatbox_lait3 = Chatbox(Token_50(), Quatre, {1: chatbox_lait3_1, 2: chatbox_lait3_2}, "Purrcival", "Alors, attends... attends... j'ai une blague pour toi ! Tu sais ce qu'est un chat dans l'espace ?   *hoquete*", "Non, je sais pas...", "Laisse moi tranquille")
+chatbox_lait3_1 = Chatbox(Mainly_White_Head(), Quatre, {}, "Purrcival", "Un... un chatellite ! Hahaha ! Comme un satellite, mais avec chat dedans ! *glousse* T'as compris,  hein ? Hahaha ! C'est trop... trop drole ! Non ?", "Ahah, ouais c'est ca...")
+chatbox_lait3_2 = Chatbox(Mainly_White_Head(), Quatre, {}, "Purrcival", "*hic* Dommage *vous regarde d'un air aneanti*")
+chatbox_lait3 = Chatbox(Mainly_White_Head(), Quatre, {1: chatbox_lait3_1, 2: chatbox_lait3_2}, "Purrcival", "Alors, attends... attends... j'ai une blague pour toi ! Tu sais ce qu'est un chat dans l'espace ?   *hoquete*", "Non, je sais pas...", "Laisse moi tranquille")
 
 chatbox_lait3.range_x = [725, 800]
 chatbox_lait3.range_y = [330, 365]
 
 
-chatbox_veut_savoir_roulette = Chatbox(Token_50(), Quatre, {}, "Chatlyn", "D'abord tu places un jeton ou tu le souhaites sur le plateau, ensuite tu cliques sur la roulette.   Aussi simple que chat !", "D'accord !")
-chatbox_roulette = Chatbox(Token_50(), Quatre, {1: chatbox_veut_savoir_roulette}, "Chatlyn", "Coucou mon chat, tu veux savoir comment on joue ?", "Oui !", "Je sais deja comment y jouer.")
+chatbox_veut_savoir_roulette = Chatbox(Colorful_Head(), Quatre, {}, "Chatlyn", "D'abord tu places un jeton ou tu le souhaites sur le plateau, ensuite tu cliques sur la roulette.   Aussi simple que chat !", "D'accord !")
+chatbox_roulette = Chatbox(Colorful_Head(), Quatre, {1: chatbox_veut_savoir_roulette}, "Chatlyn", "Coucou mon chat, tu veux savoir comment on joue ?", "Oui !", "Je sais deja comment y jouer.")
 
 chatbox_roulette.range_x = [635, 695]
 chatbox_roulette.range_y = [210, 360]
@@ -234,7 +234,8 @@ Cinq.chatrpentiers.append({"coord": [738, 450] , "chatrpentier": chatrpentier()}
 Cinq.chatrpentiers.append({"coord": [629, 135] , "chatrpentier": chatrpentier()})
 
 #ajout d'un dialogue
-chatbox_travaux = Chatbox(Token_50(), Cinq, {}, "Chatrpentier", "Miaou ! C'est en travaux, repasse plus tard !", "miaou, ok")
+#rmplacer par chatrpentier_head
+chatbox_travaux = Chatbox(Lunettes_Head(), Cinq, {}, "Chatrpentier", "Miaou ! C'est en travaux, repasse plus tard !", "miaou, ok")
 chatbox_travaux.range_x = [697, 777]
 chatbox_travaux.range_y = [445, 495]
 

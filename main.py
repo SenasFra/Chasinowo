@@ -11,17 +11,13 @@ from games.des import Des
 from games.roulette import Roulette
 from games.blackjack import Blackjack   
 from menu import Menu
+from intro import Intro
 from chatbox import Chatbox
 import time
 from assets.character.main.gauche import Gauche
 
 from save import save
 import atexit
-
-Menu_interface = Menu()
-
-def cleanup():
-    print("miaouauaou")
 
 class casino:
     def __init__(self):
@@ -46,11 +42,8 @@ class casino:
 
         self.porte_triggered = None
         
-        #sauvegarde si on ferme le jeu
-        
-        
         pyxel.run(self.update, self.draw)
-        atexit.register(self.cleanup)
+
         
         
     def interface(self):
@@ -148,8 +141,11 @@ class casino:
         else:
             #affiche l'interface du jeu        
             self.jeux.update()
+            print(self.jeux.jouer, "uxuxu")
             if not self.jeux.jouer:
+                #on est dans le menu
                 if isinstance(self.jeux, Menu):
+                    print("on est dans menu")
                     #récupere la sauvegade
                     if self.jeux.charger:
                         with open('save/data.pickle', 'rb') as f:
@@ -159,10 +155,15 @@ class casino:
                             self.CHAT.x = data[2][0]
                             self.CHAT.y = data[2][1]
                             self.current_room = data[3]
-                            
+                    else:
+                        print("miaou25545454")
+                        self.jeux = Intro()        
+                        print(self.jeux)    
+                                     
                 #sauvegarde l'argent gagner
                 save(self.CHAT, self.current_room)
-                self.jeux = None
+                if not self.jeux.jouer:
+                    self.jeux = None
                 
         
 
@@ -180,7 +181,6 @@ class casino:
                 if self.current_room.current_chatbox.reponse1 == "Acheter" and not (self.porte_triggered.name in self.CHAT.doors_unlocked)  and self.porte_triggered != None:
                     self.current_room.current_chatbox.dess(self.porte_triggered, self.CHAT, self.current_room)
                 else: 
-                    print("miaou")  
                     self.current_room.current_chatbox.dess()
                 #on a quitté la chatbox
                 if not self.current_room.current_chatbox.chatbox_activated:

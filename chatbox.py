@@ -23,7 +23,7 @@ class Chatbox:
         
         self.temp = time.time()
             
-        if len(self.next_chatboxes) != 0 or rep1 is not None:
+        if (len(self.next_chatboxes) != 0 and rep1 is not None) or rep1 is not None or len(next_chatboxes) != 0:
             self.selected = 1
         
         
@@ -182,7 +182,7 @@ class Chatbox:
             
         #sélectionne la réponse lorsque l'on clique ou que l'on appuie sur E
         if (pyxel.btnp(pyxel.KEY_E) or can_change_chatbox_by_clicking) and self.wait(0.1):
-            #active la prochaine chatbox s'il y en a une et désactive l'actuelle
+            #active la prochaine chatbox et désactive l'actuelle
             if (self.selected != 0 and self.selected in self.next_chatboxes.keys()):
                 self.next_chatboxes[self.selected].chatbox_activated = True
                 self.salle.current_chatbox = self.next_chatboxes[self.selected]

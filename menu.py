@@ -53,7 +53,7 @@ class Menu:
             self.continu = False
             self.exit = True
             
-            
+        #affichage du menu    
         pyxel.cls(0)
         for x in range(6):
             for y in range(5):

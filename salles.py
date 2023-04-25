@@ -29,6 +29,8 @@ from assets.character.pnj.pnjheads.yellow_head import Yellow_Head
 from assets.character.pnj.pnjheads.mainly_white_head import Mainly_White_Head
 from assets.character.pnj.pnjheads.colorful_head import Colorful_Head
 from assets.character.pnj.pnjheads.chattarde_head import Chattarde_Head
+from assets.others.charpentier_head import Charpentier_Head
+
 
 class Salle:
     def __init__(self, coords_hitbox: list, img_name: object, jeux: object, sieges: list):
@@ -235,8 +237,7 @@ Cinq.chatrpentiers.append({"coord": [629, 135] , "chatrpentier": chatrpentier()}
 
 #ajout d'un dialogue
 #rmplacer par chatrpentier_head
-chatbox_travaux = Chatbox(Lunettes_Head(), Cinq, {}, "Chatrpentier", "Miaou ! C'est en travaux, repasse plus tard !", "miaou, ok")
-chatbox_travaux.range_x = [697, 777]
+chatbox_travaux = Chatbox(Charpentier_Head(), Cinq, {}, "Chatrpentier", "Miaou ! C'est en travaux, repasse plus tard !", "miaou, ok")chatbox_travaux.range_x = [697, 777]
 chatbox_travaux.range_y = [445, 495]
 
 Cinq.chatboxes.append(chatbox_travaux)

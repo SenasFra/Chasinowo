@@ -237,7 +237,8 @@ Cinq.chatrpentiers.append({"coord": [629, 135] , "chatrpentier": chatrpentier()}
 
 #ajout d'un dialogue
 #rmplacer par chatrpentier_head
-chatbox_travaux = Chatbox(Charpentier_Head(), Cinq, {}, "Chatrpentier", "Miaou ! C'est en travaux, repasse plus tard !", "miaou, ok")chatbox_travaux.range_x = [697, 777]
+chatbox_travaux = Chatbox(Charpentier_Head(), Cinq, {}, "Chatrpentier", "Miaou ! C'est en travaux, repasse plus tard !", "miaou, ok")
+chatbox_travaux.range_x = [697, 777]
 chatbox_travaux.range_y = [445, 495]
 
 Cinq.chatboxes.append(chatbox_travaux)

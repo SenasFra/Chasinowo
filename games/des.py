@@ -14,7 +14,7 @@ class Des:
         self.couleur_mise_1000 = 9
         self.couleur_mise_500 = 9
         self.couleur_mise_250 = 9
-        self.argent_joue = 0
+        self.mise = 0
         self.bets = []
         self.jouer = True
         self.font1 = PyxelUnicode("assets/font/pixelmix.ttf", 30)
@@ -74,7 +74,7 @@ class Des:
         self.de2 = str(randint(1, 6))
         self.CHAT.money += self.money_won()
         #réinitialise le jeu
-        self.argent_joue = 0
+        self.mise = 0
         self.couleur_mise_1000 = self.couleur_mise_500 = self.couleur_mise_250 = 9
         while len(self.bets) != 0:
             self.bets.pop()
@@ -83,11 +83,11 @@ class Des:
         result = int(self.de1) + int(self.de2)
         #le joueur a parier sur une fourchette de 12
         if len(self.bets) == 2 and (self.bets[0] == 2 and self.bets[1] == 12):
-            return self.argent_joue
+            return self.mise
         
         #le joueur a parié que sur un nombre et gagne
         if len(self.bets) == 1 and result == self.bets[0] or len(self.bets) == 2 and result == self.bets[0]:
-            return round(self.argent_joue / (1/11))
+            return round(self.mise / (1/11))
         
         #le joueur a perdu sur son nombre
         if len(self.bets) == 1 and result != self.bets[0]:
@@ -97,9 +97,9 @@ class Des:
         if (result in range(self.bets[0], self.bets[1] + 1)) or (result in range(self.bets[1], self.bets[0] + 1)):
             #le joueur a parié sur la fourchette simple (taux de win >= 45%)
             if abs(self.bets[0] - self.bets[1]) + 1 >= 5:
-                return round(self.argent_joue * (2 - ((abs(self.bets[0] - self.bets[1]) + 1) / 11)))
+                return round(self.mise * (2 - ((abs(self.bets[0] - self.bets[1]) + 1) / 11)))
             #le joueur a parié sur une fourchette dure (taux de win < 45%)
-            return round(self.argent_joue / ((abs(self.bets[0] - self.bets[1]) + 1) / 11))
+            return round(self.mise / ((abs(self.bets[0] - self.bets[1]) + 1) / 11))
         
         #le joueur a perdu
         return 0
@@ -137,15 +137,15 @@ class Des:
     def select_stake(self, y):
         if 100<= y <= 150 and self.CHAT.money >= 1000 and self.couleur_mise_1000 == 9:
             self.couleur_mise_1000 = 10
-            self.argent_joue += 1000
+            self.mise += 1000
             self.CHAT.money -= 1000
         if 200<= y <= 250 and self.CHAT.money >= 500 and self.couleur_mise_500 == 9:
             self.couleur_mise_500 = 10
-            self.argent_joue += 500
+            self.mise += 500
             self.CHAT.money -= 500
         if 300<= y <= 350 and self.CHAT.money >= 250 and self.couleur_mise_250 == 9:
             self.couleur_mise_250 = 10
-            self.argent_joue += 250
+            self.mise += 250
             self.CHAT.money -= 250
         
     def display_dice(self):
@@ -166,6 +166,9 @@ class Des:
     def update(self):
         #quitte le jeu
         if pyxel.btnp(pyxel.KEY_A):
+            #si le joueur avait misé
+            if self.mise > 0:
+                self.CHAT.money += self.mise
             self.jouer = False
             pyxel.mouse(True)
             
@@ -181,12 +184,12 @@ class Des:
             
                     
         if pyxel.btnp(pyxel.KEY_O):
-            print(str(self.argent_joue)+", "+str(self.CHAT.money))
+            print(str(self.mise)+", "+str(self.CHAT.money))
             
 
     def draw(self):
         #lance les dés
-        if pyxel.btnp(pyxel.KEY_SPACE) and len(self.bets) >= 1 and self.argent_joue > 0:
+        if pyxel.btnp(pyxel.KEY_SPACE) and len(self.bets) >= 1 and self.mise > 0:
             self.i = 0
             self.j = 0
             self.k = 0

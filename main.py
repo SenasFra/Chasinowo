@@ -24,14 +24,20 @@ class casino:
         self.font = PyxelUnicode("assets/font/pixelmix.ttf", 20)
         pyxel.init(1350, 680, title= "ChasinOwO")
         pyxel.mouse(True)
+        
         #génére la musique
-        # random.shuffle(self.musiques)
-        # pygame.mixer.music.load("assets/Musiques/" + self.musiques[0])
-        # pygame.mixer.music.play()
+        pygame.init()
+        pygame.mixer.init()
+        self.musiques = ["Buoyant_Cat.mp3", "Cat_on_couch.mp3", "Cat_Shaped_Cloud.mp3", "Cowboy_Cat.mp3", "Catnip_Overdose.wav"]
+        random.shuffle(self.musiques)
+        pygame.mixer.music.load("assets/Musiques/" + self.musiques[0])
+        pygame.mixer.music.play()
+        
         
         self.CHAT = CHAT.CHAT(650,425)
         self.previous_room = None
-        self.current_room = salles.Un
+        self.current_room = salles.Debut
+        self.jeux = Menu()
         self.jeux = None
         
         #variables pour activer et désactiver les dialogues
@@ -198,6 +204,8 @@ class casino:
         else:
             self.jeux.draw()
             
+                
+        self.musique()
         
         
 
@@ -210,7 +218,7 @@ class casino:
                 self.played_music =self.musiques[0]
                 self.musiques = os.listdir("assets/Musiques")
                 random.shuffle(self.musiques)
-                self.musiques.insert(0,self.played_music)
+                self.musiques.insert(0, self.played_music)
                 
     def active_chatbox(self, chatbox):
         self.current_room.current_chatbox = chatbox

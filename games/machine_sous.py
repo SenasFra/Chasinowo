@@ -47,7 +47,11 @@ class Machine_a_Sous:
         self.frames_counter = 0 #sert de compteur pour afficher l'argent gagné après que les résultats ont été affichés
         
     def update(self):
+        #quitte le jeu
         if pyxel.btn(pyxel.KEY_A):
+            #si le joueur avait misé
+            if self.mise > 0:
+                self.CHAT.money += self.mise
             self.jouer = False
             
         if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):

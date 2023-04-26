@@ -75,6 +75,9 @@ class Blackjack():
     def update(self):
         #quitte le jeu
         if pyxel.btnp(pyxel.KEY_A):
+            #si le joueur avait misé
+            if self.mise > 0:
+                self.CHAT.money += self.mise
             self.jouer = False
             
         if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):

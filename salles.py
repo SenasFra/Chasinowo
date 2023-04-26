@@ -87,7 +87,8 @@ class Salle:
                 chatrpentier["chatrpentier"].dess(chatrpentier["coord"][0], chatrpentier["coord"][1])
         
 #création des salles              
-Debut = Salle([[260,115,1040,505], [730, 460, 800, 510]], "debut", [], [])
+Debut = Salle([[260,115,1040,505], [730, 460, 800, 510], [620, 330, 690, 385]], "debut", [], [])
+                #mur                # chat vip           ##chat coloré
 Un = Salle([[430, 145, 855, 455], [570, 225, 730, 350], [615, 180, 700, 225], [620, 345, 690, 380]], "1", [Des], [])
 Deux = Salle( [[385, 170, 925, 470], [330, 205, 425, 415], [500, 201, 588, 425],[550, 225, 760, 425],[720, 201, 800, 420], [880, 140, 975, 220],  [800, 270, 850, 340]], "2", [Machine_a_Sous], [])
 Trois = Salle([[400, 115, 925, 500], [410, 125, 605, 240],[700, 115, 895, 240], [710, 370, 905, 465], [420, 370, 615, 465], [465, 450, 550, 600], [755, 455, 845, 550], [465, 50, 560, 200], [755, 50, 845, 200], [628, 465, 700, 800]], "3", [Blackjack], []) # [628, 465, 700, 800] = Plot
@@ -106,8 +107,10 @@ Debut.portes.append(Porte_D_2)
 Debut.portes.append(Porte_D_F)
 Debut.portes.append(Porte_D_3)
 
-#ajout d'un chat
+#ajout de chats
+Debut.cats.append({"coord": [655, 370], "cat": Colorful_Cat()})
 Debut.cats.append({"coord": [760, 500], "cat": Greycat_backward()})
+
 
 #ajout de dialogue
 chatbox_vip = Chatbox(Grey_Head(), Debut, {}, "Persan", "La porte derriere moi ? C'est pour les plus        riches, les VIP comme moi, allez va-t'en le      pauvre", "s'cuse moi Louis XIV..")
@@ -118,6 +121,14 @@ Debut.chatboxes.append(chatbox_vip)
 chatbox_d_oui_2 = Chatbox(Colorful_Head(), Debut, {}, "Zongo", "Tu vas en choisir une des deux, la debloquer puis la passer, et tu auras acces a ton premier jeu !", "Merci !")
 chatbox_d_oui = Chatbox(Colorful_Head(), Debut, {1 : chatbox_d_oui_2}, "Zongo", "D'accord ! Je vais t'expliquer, tu vois les portes en haut et a gauche ?", "continuer")
 chatbox_debut = Chatbox(Colorful_Head(), Debut, {1 : chatbox_d_oui}, "Zongo", "Coucou, t'es nouveau ici toi ?", "Oui.", "Non.")
+
+chatbox_d_oui_2 = Chatbox(Colorful_Head(), Debut, {}, "Zongo", "Tu vas en choisir une des deux, la debloquer puis la passer, et tu auras acces a ton premier jeu !", "Merci !")
+chatbox_d_oui = Chatbox(Colorful_Head(), Debut, {1 : chatbox_d_oui_2}, "Zongo", "D'accord ! Je vais t'expliquer, tu vois les portes en haut et a gauche ?", "continuer")
+chatbox_debut = Chatbox(Colorful_Head(), Debut, {1 : chatbox_d_oui}, "Zongo", "Coucou, t'es nouveau ici toi ?", "Oui.", "Non.")
+
+chatbox_debut.range_x = [600, 700]
+chatbox_debut.range_y = [320, 385]
+Debut.chatboxes.append(chatbox_debut)
 
 chatbox_debut.range_x = [600, 700]
 chatbox_debut.range_y = [320, 385]
@@ -212,8 +223,8 @@ chatbox_lait3 = Chatbox(Mainly_White_Head(), Quatre, {1: chatbox_lait3_1, 2: cha
 chatbox_lait3.range_x = [725, 800]
 chatbox_lait3.range_y = [330, 365]
 
-
-chatbox_veut_savoir_roulette = Chatbox(Colorful_Head(), Quatre, {}, "Chatlyn", "D'abord tu places un jeton ou tu le souhaites sur le plateau, ensuite tu cliques sur la roulette.   Aussi simple que chat !", "D'accord !")
+chatbox_veut_savoir_jetons = Chatbox(Colorful_Head(), Quatre, {}, "Chatlyn", "Pour les jetons, ils coutent 10 000 fois leur     valeur. Par exemple le jeton 1 coute 10 000 $w$.", "D'accord !")
+chatbox_veut_savoir_roulette = Chatbox(Colorful_Head(), Quatre, {1: chatbox_veut_savoir_jetons}, "Chatlyn", "D'abord tu places un jeton ou tu le souhaites sur le plateau, ensuite tu cliques sur la roulette.   Aussi simple que chat !", "Et les valeurs des jetons ?")
 chatbox_roulette = Chatbox(Colorful_Head(), Quatre, {1: chatbox_veut_savoir_roulette}, "Chatlyn", "Coucou mon chat, tu veux savoir comment on joue ?", "Oui !", "Je sais deja comment y jouer.")
 
 chatbox_roulette.range_x = [635, 695]

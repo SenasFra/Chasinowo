@@ -118,17 +118,10 @@ chatbox_vip.range_x = [715, 815]
 chatbox_vip.range_y = [455, 505]
 Debut.chatboxes.append(chatbox_vip)
 
-chatbox_d_oui_2 = Chatbox(Colorful_Head(), Debut, {}, "Zongo", "Tu vas en choisir une des deux, la debloquer puis la passer, et tu auras acces a ton premier jeu !", "Merci !")
+chatboxa = Chatbox(Colorful_Head(), Debut, {}, "Zongo", "Avant que j'oublie ! Pour quitter un jeu, appuie sur A et surtout pas  sur echap !!!", "Merci !")
+chatbox_d_oui_2 = Chatbox(Colorful_Head(), Debut, {1 : chatboxa}, "Zongo", "Tu vas en choisir une des deux, la debloquer puis la passer, et tu auras acces a ton premier jeu !", "continuer")
 chatbox_d_oui = Chatbox(Colorful_Head(), Debut, {1 : chatbox_d_oui_2}, "Zongo", "D'accord ! Je vais t'expliquer, tu vois les portes en haut et a gauche ?", "continuer")
 chatbox_debut = Chatbox(Colorful_Head(), Debut, {1 : chatbox_d_oui}, "Zongo", "Coucou, t'es nouveau ici toi ?", "Oui.", "Non.")
-
-chatbox_d_oui_2 = Chatbox(Colorful_Head(), Debut, {}, "Zongo", "Tu vas en choisir une des deux, la debloquer puis la passer, et tu auras acces a ton premier jeu !", "Merci !")
-chatbox_d_oui = Chatbox(Colorful_Head(), Debut, {1 : chatbox_d_oui_2}, "Zongo", "D'accord ! Je vais t'expliquer, tu vois les portes en haut et a gauche ?", "continuer")
-chatbox_debut = Chatbox(Colorful_Head(), Debut, {1 : chatbox_d_oui}, "Zongo", "Coucou, t'es nouveau ici toi ?", "Oui.", "Non.")
-
-chatbox_debut.range_x = [600, 700]
-chatbox_debut.range_y = [320, 385]
-Debut.chatboxes.append(chatbox_debut)
 
 chatbox_debut.range_x = [600, 700]
 chatbox_debut.range_y = [320, 385]
@@ -280,7 +273,8 @@ Fin.portes.append(Porte_F_D)
 #ajout des chats
 
 #ajout des dialogues
-
+fin_jeu = Chatbox(None, Fin, {}, None, "Bravo mon chat, tu as fini le jeu, il n'est pas encore termine mais j'espere que ca t'a   plu, n'hesite pas a depenser tout ton argent maintenant.")
+Fin.current_chatbox = fin_jeu
 #ajout d'un plot
 
 

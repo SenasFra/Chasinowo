@@ -23,7 +23,7 @@ class Menu:
         if self.exit and pyxel.btnp(pyxel.KEY_Z):
             self.exit = False
             self.continu = True
-        if pyxel.btn(pyxel.KEY_E) or pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
+        if pyxel.btnp(pyxel.KEY_E) or pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
             if self.new:
                 self.jouer = False
             if self.continu:

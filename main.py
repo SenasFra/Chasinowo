@@ -5,7 +5,7 @@ import pickle
 import os
 from assets.font.PyxelUnicode import PyxelUnicode
 import salles
-import CHAT
+from CHAT import CHAT
 from games.machine_sous import Machine_a_Sous
 from games.des import Des
 from games.roulette import Roulette
@@ -34,10 +34,13 @@ class casino:
         pygame.mixer.music.play()
         
         
-        self.CHAT = CHAT.CHAT(650,425)
+        self.CHAT = CHAT(650,425)
+        
+        #les salles et les jeux
         self.previous_room = None
         self.current_room = salles.Debut
         self.jeux = Menu()
+        self.jeux = None
         
         #variables pour activer et désactiver les dialogues
         self.chatbox_activated = False
@@ -45,7 +48,12 @@ class casino:
         #active le bouton E en bas à droite
         self.is_E_button_on = False
 
+        #porte activée
         self.porte_triggered = None
+        
+        #vérifie si le joueur a perdu
+        self.perdu = False
+        self.game_over_music_played = False
         
         pyxel.run(self.update, self.draw)
 
@@ -73,7 +81,7 @@ class casino:
 
     def update(self):
         pyxel.mouse(True)
-
+        
         #si on a passé le menu (et éventuellement le scénario)
         if self.jeux is None:
             #changement de salle lorsque l'on est proche d'une porte          
@@ -92,7 +100,7 @@ class casino:
                 if self.porte_triggered is not None:
                     room = self.porte_triggered.enter(self.CHAT)
                     previous_door_name = self.porte_triggered.name
-
+                    
                     #change de salle
                     if room is not None:
                         self.current_room = room
@@ -102,7 +110,10 @@ class casino:
                 
                         save(self.CHAT, self.current_room)
                         
-                        
+                        #si c'est la salle de fin, affiche le message de fin
+                        if self.current_room.img_name == "fin" and self.current_room.current_chatbox is not None:
+                            self.current_room.current_chatbox.temp = time.time()
+                            self.chatbox_activated = True
             
             if pyxel.btnp(pyxel.KEY_E) and not self.chatbox_activated:
                 #active une chatbox qui n'a pas de rapport avec une porte
@@ -172,6 +183,11 @@ class casino:
                 save(self.CHAT, self.current_room)
                 if not self.jeux.jouer:
                     self.jeux = None
+                    
+        #on a plus d'argent
+        if self.perdu and pyxel.btn(pyxel.KEY_E):
+            print("on retourne au menu")
+            self.get_back_to_menu()
                 
         
 
@@ -203,19 +219,32 @@ class casino:
             #si aucune chatbox est activé, le chat peut bouger (correction du bug: relance la chatbox au moment où on la quitte)
             if self.current_room.current_chatbox is None and self.chatbox_activated:
                 self.chatbox_activated = False
+                
+            #le joueur ne peut plus jouer
+            if self.CHAT.money < 100:
+                self.has_lost()
         else:
             self.jeux.draw()
             
-                
+        #lance les musiques        
         self.musique()
+        
         
         
 
     def musique(self):
-        if not pygame.mixer.music.get_busy():
+        #joue la musique de défaite
+        if self.game_over_music_played and not pygame.mixer.music.get_busy():
+            pygame.mixer.music.load("assets/Musiques/Fin/The_Cat_Will_Do_It_Again.mp3")
+            pygame.mixer.music.play()
+            
+        #joue une musique au hasard
+        if not self.game_over_music_played and not pygame.mixer.music.get_busy():
             self.musiques.pop(0)
             pygame.mixer.music.load("assets/Musiques/" + self.musiques[0])
             pygame.mixer.music.play()
+
+                
             if len(self.musiques)==1:
                 self.played_music =self.musiques[0]
                 self.musiques = os.listdir("assets/Musiques")
@@ -263,4 +292,30 @@ class casino:
         #supprime les espaces sur les côtés donc celui intiale
         return result.strip()
     
+    def has_lost(self):
+        self.perdu = True
+        
+        #arrête la musique actuelle pour laisser place à celle de défaite
+        if self.perdu and not self.game_over_music_played:
+            pygame.mixer.music.stop()
+            
+        self.game_over_music_played = True
+        #affiche l'écran de perte
+        for x in range(6):
+            for y in range(4):
+                pyxel.image(0).load(0,0, f"assets/perdu/{x}{y}.png")
+                pyxel.blt(x * 225,  y * 170, 0, 0, 0, 225, 170)
+                
+    def get_back_to_menu(self):
+        #retourne au menu
+        self.game_over_music_played = False
+        #arrête la musique de défaite
+        pygame.mixer.music.stop()
+        self.perdu = False
+        #reset l'argent du chat, les portes débloquées et la salle actuelle
+        self.CHAT = CHAT(650,425)
+        self.current_room = salles.Debut
+        self.jeux = Menu()
+        
+        
 casino()

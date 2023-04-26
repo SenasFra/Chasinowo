@@ -7,6 +7,7 @@ from save import save
 class Chatbox:
     def __init__(self, image, salle, next_chatboxes, nom, question, rep1 = None,rep2 = None,rep3 = None):
         self.font = PyxelUnicode("assets/font/pixelmix.ttf", 20)
+        self.font_appuyer_sur_E = PyxelUnicode("assets/font/pixelmix.ttf", 5)
         self.range_x = []
         self.range_y = []
         
@@ -88,11 +89,16 @@ class Chatbox:
                     else:
                         self.font.text(20, 630, self.question[100:])
                         
+                        
                 self.displayArrowAndAnswers()
                     
                 self.selectAnswer(pyxel.mouse_x, pyxel.mouse_y)
                 
-            
+            #si le la chatbox n'a pas de réponse on affiche un E
+            if self.reponse1 is None:
+                self.font.text(1050, 510, "Appuyer sur E")
+                
+            #change le comportement de la prochaine chatbox selon le type (si la chatbox vient d'une porte ou d'un chat)
             if porte is not None and CHAT is not None and current_room is not None:
                 self.next_chatbox(pyxel.mouse_x, pyxel.mouse_y, porte, CHAT, current_room)
             else:
@@ -196,15 +202,10 @@ class Chatbox:
         #achète la porte
         if self.selected == 1 and self.reponse1 == "Acheter":
             if CHAT.money >= porte.price and CHAT.money >= porte.money_condition:
-                print("Acheter ça marche")
                 CHAT.money -= porte.price
-                
-                print(porte.name, self.door_name_reversed(porte.name))
-                
                 CHAT.doors_unlocked.append(porte.name)
                 CHAT.doors_unlocked.append(self.door_name_reversed(porte.name))
                 #sauvegarde l'argent et la porte débloquée
-                print(CHAT.doors_unlocked)
                 save(CHAT, current_room)
                 return True
             
@@ -216,7 +217,6 @@ class Chatbox:
         return result
             
     def wait(self, second):
-        print(self.temp, time.time(), time.time() - self.temp )
         if time.time() - self.temp < second:
             return False
             

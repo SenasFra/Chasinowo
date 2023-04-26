@@ -7,7 +7,7 @@ from assets.character.main.sitting import Sitting
 
 class CHAT:
     def __init__(self ,x ,y ):
-        self.money = 50000
+        self.money = 2000000
         self.doors_unlocked = ["1-5", "5-1", "D-3", "3-D"]
         self.assis = False
         self.x = x

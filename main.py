@@ -200,7 +200,6 @@ class casino:
         
 
     def draw(self):
-        #self.musique()
         #si il n'y a pas de jeux lancé, on affiche la salle sinon on affiche le jeu
         if self.jeux is None:
             self.current_room.dess()
@@ -255,7 +254,7 @@ class casino:
                 
             if len(self.musiques)==1:
                 self.played_music =self.musiques[0]
-                self.musiques = os.listdir("assets/Musiques")
+                self.musiques = ["Buoyant_Cat.mp3", "Cat_on_couch.mp3", "Cat_Shaped_Cloud.mp3", "Cowboy_Cat.mp3", "Catnip_Overdose.wav"]
                 random.shuffle(self.musiques)
                 self.musiques.insert(0, self.played_music)
                 

@@ -101,23 +101,39 @@ def add_spaces_between_number(money):
 print(add_spaces_between_number("120500"))
 
 def separate_digits(number):
-    number_str = str(number)  # convert number to string
-    digits = len(number_str)
-    if digits <= 3:
+    number_str = str(number)
+    number_length = len(number_str)
+    
+    #renvoie directement le nombre si il a moins de 3 chiffres
+    if number_length <= 3:
         return number_str
-    elif digits % 3 == 0:
-        separator = " "
-        groups = digits // 3
+    #si le nombre est un mutliple de 3, calcule le nombre de groupes de 3 chiffres dans celui-ci
+    elif number_length % 3 == 0:
+        groups_of_3 = number_length // 3
+    #de même s'il n'est pas un multiple de 3 sauf qu'on rajoute 1 pour prendre en compte les chiffres restants
     else:
-        separator = " "
-        groups = digits // 3 + 1
+        groups_of_3 = number_length // 3 + 1
+        
+    space = " "
     result = ""
-    for i in range(groups):
-        start = digits - (i + 1) * 3
-        end = digits - i * 3
+    
+    # Pour chaque groupe de trois chiffres dans le nombre, ajoute un espace et les chiffres à la variable de résultat
+    # en partant de la fin du nombre pour traiter les chiffres dans l'ordre correct
+    for i in range(groups_of_3):
+        start = number_length - (i + 1) * 3
+        end = number_length - i * 3
+        #si le groupe de 3 traité est plus petit que 3 chiffres, on change la variable à 0 pour prendre en compte les chiffres restants
         if start < 0:
             start = 0
-        result = separator + number_str[start:end] + result
+        result = space + number_str[start:end] + result #ajoute un espace et les chiffres du groupe traité
+    #supprime les espaces sur les côtés donc celui intiale
     return result.strip()
 
-print(separate_digits(112135))
+print(separate_digits(89653352153))
+
+bets = [9, 4]
+result = 10
+premier = (result in range(bets[1], bets[0] + 1))
+second = (result in range(bets[0], bets[1] + 1))
+
+print(premier, second)

@@ -6,8 +6,8 @@ class Des:
     def __init__(self, CHAT):
         pyxel.mouse(False)
         self.CHAT = CHAT
-        self.range_x = [595, 705]
-        self.range_y = [375, 405]
+        self.range_x = [610, 705]
+        self.range_y = [345, 390]
         
         self.de1 = "1"
         self.de2 = "2"
@@ -81,16 +81,18 @@ class Des:
 
     def money_won(self):
         result = int(self.de1) + int(self.de2)
-        result = 9
         #le joueur a parier sur une fourchette de 12
         if len(self.bets) == 2 and (self.bets[0] == 2 and self.bets[1] == 12):
             return self.argent_joue
+        
         #le joueur a parié que sur un nombre et gagne
         if len(self.bets) == 1 and result == self.bets[0] or len(self.bets) == 2 and result == self.bets[0]:
             return round(self.argent_joue / (1/11))
+        
         #le joueur a perdu sur son nombre
         if len(self.bets) == 1 and result != self.bets[0]:
             return 0
+        
         #le joueur a parié sur une fourchette
         if (result in range(self.bets[0], self.bets[1] + 1)) or (result in range(self.bets[1], self.bets[0] + 1)):
             #le joueur a parié sur la fourchette simple (taux de win >= 45%)

@@ -22,6 +22,7 @@ import atexit
 class casino:
     def __init__(self):
         self.font = PyxelUnicode("assets/font/pixelmix.ttf", 20)
+        self.font_inventaire = PyxelUnicode("assets/font/pixelmix.ttf", 10)
         pyxel.init(1350, 680, title= "ChasinOwO")
         pyxel.mouse(True)
         
@@ -40,7 +41,6 @@ class casino:
         self.previous_room = None
         self.current_room = salles.Debut
         self.jeux = Menu()
-        self.jeux = None
         
         #variables pour activer et désactiver les dialogues
         self.chatbox_activated = False
@@ -77,7 +77,11 @@ class casino:
         if self.is_E_button_on:
             pyxel.image(0).load(0, 0, "assets/UI/E_Button_ON.png")
             pyxel.blt(1225, 518, 0, 0, 0, 100, 100)
-
+            
+        #si on passe la souris vers l'inventaire
+        if 1225 <= pyxel.mouse_x <= 1325 and 400 <= pyxel.mouse_y <= 615:
+            self.font_inventaire.text(pyxel.mouse_x, pyxel.mouse_y, "pas encore")
+            self.font_inventaire.text(pyxel.mouse_x, pyxel.mouse_y + 12, "fonctionnel")
 
     def update(self):
         pyxel.mouse(True)
@@ -150,6 +154,10 @@ class casino:
             if pyxel.btn(pyxel.KEY_A):
                 print(self.CHAT.x, self.CHAT.y, self.CHAT.money, self.CHAT.doors_unlocked, self.jeux)
             
+            if pyxel.btn(pyxel.MOUSE_BUTTON_LEFT):
+                print(pyxel.mouse_x, pyxel.mouse_y)
+            
+            #clique sur le bouton save
             if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
                 if 1210 <= pyxel.mouse_x <= 1340 and 80 <= pyxel.mouse_y <= 135:
                     save(self.CHAT, self.current_room) 

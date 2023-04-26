@@ -180,9 +180,10 @@ class Chatbox:
             
             
         #sélectionne la réponse lorsque l'on clique ou que l'on appuie sur E
-        if (pyxel.btnp(pyxel.KEY_E) or can_change_chatbox_by_clicking) and self.wait(0.1):
+        if (pyxel.btn(pyxel.KEY_E) or can_change_chatbox_by_clicking) and self.wait(0.3):
             #active la prochaine chatbox et désactive l'actuelle
             if (self.selected != 0 and self.selected in self.next_chatboxes.keys()):
+                self.next_chatboxes[self.selected].temp = time.time()
                 self.next_chatboxes[self.selected].chatbox_activated = True
                 self.salle.current_chatbox = self.next_chatboxes[self.selected]
                 

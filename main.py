@@ -38,7 +38,6 @@ class casino:
         self.previous_room = None
         self.current_room = salles.Debut
         self.jeux = Menu()
-        self.jeux = None
         
         #variables pour activer et désactiver les dialogues
         self.chatbox_activated = False

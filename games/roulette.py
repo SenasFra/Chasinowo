@@ -80,8 +80,8 @@ class Roulette():
         #quitte le jeu 
         if pyxel.btnp(pyxel.KEY_A):
             #si le joueur avait misé
-            if self.mise > 0:
-                for mise in self.wages.values():
+            if len(self.wages) > 0:
+                for mise in self.wages:
                     self.CHAT.money += mise
             self.jouer = False
             

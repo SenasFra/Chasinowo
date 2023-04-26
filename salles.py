@@ -101,7 +101,7 @@ Fin = Salle( [[260, 120, 1035, 480], [400, 240, 590, 390], [340, 255, 645, 355],
 Porte_D_1 = Porte("D-1", {'x': 260, 'y': 260}, 1000, 2000, Un, False, 55) 
 Porte_D_2 = Porte("D-2", {'x': 620, 'y': 115}, 1000, 2000, Deux, True, 60)
 Porte_D_3 = Porte("D-3", {'x': 1040, 'y': 240}, 0, 0, Trois, False, 100)
-Porte_D_F = Porte("D-F", {'x': 615, 'y': 505}, 1000000, 0, Fin, True, 60)
+Porte_D_F = Porte("D-F", {'x': 615, 'y': 505}, 1000000, 1010000, Fin, True, 60)
 Debut.portes.append(Porte_D_1)
 Debut.portes.append(Porte_D_2)
 Debut.portes.append(Porte_D_F)
@@ -237,7 +237,7 @@ chatbox_veut_savoir_jetons = Chatbox(Colorful_Head(), Quatre, {}, "Chatlyn", "Po
 chatbox_veut_savoir_roulette = Chatbox(Colorful_Head(), Quatre, {1: chatbox_veut_savoir_jetons}, "Chatlyn", "D'abord tu places un jeton ou tu le souhaites sur le plateau, ensuite tu cliques sur la roulette.   Aussi simple que chat !", "Et les valeurs des jetons ?")
 chatbox_roulette = Chatbox(Colorful_Head(), Quatre, {1: chatbox_veut_savoir_roulette}, "Chatlyn", "Coucou mon chat, tu veux savoir comment on joue ?", "Oui !", "Je sais deja comment y jouer.")
 
-chatbox_roulette.range_x = [635, 695]
+chatbox_roulette.range_x = [635, 685]
 chatbox_roulette.range_y = [210, 360]
 
 Quatre.chatboxes.append(chatbox_roulette)

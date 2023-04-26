@@ -1,7 +1,6 @@
 import pyxel
 import time
 from assets.font.PyxelUnicode import PyxelUnicode
-from timeout import wait
 import pickle
 from save import save
 
@@ -216,8 +215,9 @@ class Chatbox:
         return result
             
     def wait(self, second):
-            if time.time() - self.temp < second:
-                return False
-                
-            return True
+        print(self.temp, time.time(), time.time() - self.temp )
+        if time.time() - self.temp < second:
+            return False
+            
+        return True
                     

@@ -38,6 +38,7 @@ class casino:
         self.previous_room = None
         self.current_room = salles.Debut
         self.jeux = Menu()
+        self.jeux = None
         
         #variables pour activer et désactiver les dialogues
         self.chatbox_activated = False
@@ -83,9 +84,9 @@ class casino:
                 #active la chatbox si le joueur n'a pas débloqué la porte
                 if self.porte_triggered is not None and not (self.porte_triggered.name in self.CHAT.doors_unlocked):
                     if self.CHAT.money >= self.porte_triggered.price and self.CHAT.money >= self.porte_triggered.money_condition:
-                        door_chatbox = Chatbox(None, self.current_room, {}, None, f"Pour rentrer, il vous faut: acheter la porte      ({self.add_spaces_between_number(self.porte_triggered.price)}$) et avoir {self.add_spaces_between_number(self.porte_triggered.money_condition)}$.", "Acheter", "Annuler")
+                        door_chatbox = Chatbox(None, self.current_room, {}, None, f"Pour rentrer, il vous faut: acheter la porte      ({self.add_spaces_between_number(self.porte_triggered.price)}$) et avoir au moins {self.add_spaces_between_number(self.porte_triggered.money_condition)}$w$.", "Acheter", "Annuler")
                     else:
-                        door_chatbox = Chatbox(None, self.current_room, {}, None, f"Pour rentrer, il vous faut: acheter la porte      ({self.add_spaces_between_number(self.porte_triggered.price)}$) et avoir {self.add_spaces_between_number(self.porte_triggered.money_condition)}$.", "Annuler")
+                        door_chatbox = Chatbox(None, self.current_room, {}, None, f"Pour rentrer, il vous faut: acheter la porte      ({self.add_spaces_between_number(self.porte_triggered.price)}$) et avoir au moins {self.add_spaces_between_number(self.porte_triggered.money_condition)}$w$.", "Annuler")
                     
                     self.active_chatbox(door_chatbox)
                 #vérifie si on peut entrer
@@ -99,14 +100,15 @@ class casino:
                         #replace le chat
                         new_coord = self.CHAT.replace_cat(self.current_room, previous_door_name)
                         self.CHAT.x, self.CHAT.y = new_coord[0], new_coord[1]
+                
                         save(self.CHAT, self.current_room)
+                        
                         
             
             if pyxel.btnp(pyxel.KEY_E) and not self.chatbox_activated:
                 #active une chatbox qui n'a pas de rapport avec une porte
                 for chatbox in self.current_room.chatboxes:
                     if chatbox.range_x[0] - 5 <= self.CHAT.x <= chatbox.range_x[1] + 5 and chatbox.range_y[0] - 5 <= self.CHAT.y <= chatbox.range_y[1] + 5: #and isinstance(chatbox.nom_chat, chatbox)
-                        print("miaou mioua ", self.current_room.current_chatbox)
                         chatbox.temp = time.time()
                         self.active_chatbox(chatbox)
                         
@@ -139,7 +141,6 @@ class casino:
                 print(self.CHAT.x, self.CHAT.y, self.CHAT.money, self.CHAT.doors_unlocked, self.jeux)
             
             if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
-                print(pyxel.mouse_x, pyxel.mouse_y)
                 if 1210 <= pyxel.mouse_x <= 1340 and 80 <= pyxel.mouse_y <= 135:
                     save(self.CHAT, self.current_room) 
             
@@ -155,13 +156,16 @@ class casino:
                 if isinstance(self.jeux, Menu):
                     #récupere la sauvegade
                     if self.jeux.charger:
-                        with open('save/data.pickle', 'rb') as f:
-                            data = pickle.load(f)
-                            self.CHAT.money = data[0]
-                            self.CHAT.doors_unlocked = data[1]
-                            self.CHAT.x = data[2][0]
-                            self.CHAT.y = data[2][1]
-                            self.current_room = data[3]
+                        try:
+                            with open('save/data.pickle', 'rb') as f:
+                                data = pickle.load(f)
+                                self.CHAT.money = data[0]
+                                self.CHAT.doors_unlocked = data[1]
+                                self.CHAT.x = data[2][0]
+                                self.CHAT.y = data[2][1]
+                                self.current_room = data[3]
+                        except:
+                            pass
                     else:
                         self.jeux = Intro()        
                                      

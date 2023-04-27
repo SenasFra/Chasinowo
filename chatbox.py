@@ -135,7 +135,7 @@ class Chatbox:
         
     def selectAnswer(self, x ,y):
         #positionne la flèche sur la réponse selon les touches Z et S
-        if pyxel.btnp(pyxel.KEY_Z):
+        if pyxel.btn(pyxel.KEY_Z):
             if self.selected == 2:
                 if self.reponse1 is not None:
                     self.selected = 1
@@ -145,7 +145,7 @@ class Chatbox:
                 elif self.reponse1 is not None:
                     self.selected = 1
                     
-        if pyxel.btnp(pyxel.KEY_S):
+        if pyxel.btn(pyxel.KEY_S):
             if self.selected == 2:
                 if self.reponse3 is not None:
                     self.selected = 3
